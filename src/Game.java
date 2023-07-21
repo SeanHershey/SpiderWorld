@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 
-
 public class Game extends JFrame {
     public static void main(String[] args) {
         Game win = new Game();
@@ -13,14 +12,13 @@ public class Game extends JFrame {
     public Game() {
         super("Spider World");
 
-        // Level (north)
         JPanel northPanel = new JPanel();
-        northPanel.setBackground(Color.GRAY);
-        JLabel l1 = new JLabel("Levels");
+        northPanel.setBackground(Color.white);
+        JLabel l1 = new JLabel("Level Bar");
         northPanel.add(l1);
 
         JPanel centerPanel = new JPanel();
-        centerPanel.setBackground(Color.GRAY);
+        centerPanel.setBackground(Color.white);
         GridLayout grid = new GridLayout(1,2);
         centerPanel.setLayout(grid);
 
