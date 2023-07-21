@@ -1,7 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
 
+
 public class Game extends JFrame {
+
+
     public static void main(String[] args) {
         Game win = new Game();
         win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
