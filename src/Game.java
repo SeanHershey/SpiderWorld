@@ -3,8 +3,6 @@ import java.awt.*;
 
 
 public class Game extends JFrame {
-
-
     public static void main(String[] args) {
         Game win = new Game();
         win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,6 +37,5 @@ public class Game extends JFrame {
         setLayout(layout);
         add(northPanel, BorderLayout.NORTH);
         add(centerPanel, BorderLayout.CENTER);
-
     }
 }
