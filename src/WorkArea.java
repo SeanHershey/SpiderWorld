@@ -9,24 +9,17 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
         addMouseMotionListener(this);
 
         JPanel eastPanel = new JPanel();
-<<<<<<< HEAD
-        eastPanel.setBackground(Color.darkGray);
-        eastPanel.setPreferredSize(new Dimension(200, 0));
-
-        JLabel l1 = new JLabel("Pallete");
-=======
         eastPanel.setBackground(Color.white);
+        eastPanel.setPreferredSize(new Dimension(150, 0));
         Border blackline = BorderFactory.createLineBorder(Color.gray);
         eastPanel.setBorder(blackline);
-        JLabel l1 = new JLabel("Pallete                          ");
->>>>>>> fe4917bac9ee401cdb5724de4b5f9bd2468d509e
-        eastPanel.add(l1);
+
         BorderLayout layout = new BorderLayout();
         setLayout(layout);
 
         JButton button1 = new JButton("Step");
         JButton button2 = new JButton("Turn");
-        JButton button3 = new JButton("Paint{color}");
+        JButton button3 = new JButton("Paint");
 
         button1.setPreferredSize(new Dimension(80, 30));
         button2.setPreferredSize(new Dimension(80, 30));
@@ -45,22 +38,6 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
     public void paintComponent (Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         super.paintComponent(g2);
-<<<<<<< HEAD
-        super.setBackground(Color.GRAY);
-        g2.drawString("WorkArea", 100, 100);
-
-        // trashcan
-        int lidHeight = 10;
-        int trashcanWidth = 45;
-        int trashcanHeight = 60;
-        int xPosition = 20;
-        int yPosition = getHeight() - trashcanHeight - 20;
-
-        g2.setColor(Color.BLACK);
-        g2.fillRect(xPosition + 5, yPosition, trashcanWidth, trashcanHeight);
-        g2.fillRect(xPosition, yPosition - lidHeight - 2, trashcanWidth + 10, lidHeight);
-        g2.fillRect(trashcanWidth/2 + xPosition - 5, yPosition - lidHeight - 7, trashcanWidth/2, lidHeight);
-=======
         super.setBackground(Color.white);
         Border blackline = BorderFactory.createLineBorder(Color.black);
         super.setBorder(blackline);
@@ -100,7 +77,6 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
                 break;
             }
         }
->>>>>>> fe4917bac9ee401cdb5724de4b5f9bd2468d509e
     }
 
     public void mouseReleased(MouseEvent e) {
