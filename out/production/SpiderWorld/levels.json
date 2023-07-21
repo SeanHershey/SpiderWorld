@@ -1,0 +1,39 @@
+
+{
+  "level_one" :
+  {
+    "rows" : 5,
+    "columns" : 5,
+    "power ups" : 3,
+    "color:" : "black"
+
+
+  },
+
+  "level_two" :
+  {
+    "rows" : 2,
+    "columns" : 2,
+    "power ups" : 2,
+    "color:" : "black"
+
+  },
+  "level_three" :
+  {
+
+    "rows" : 3,
+    "columns" : 3,
+    "power ups" : 3,
+    "color:" : "black"
+
+  },
+  "level_four" :
+  {
+    "rows" : 4,
+    "columns" : 4,
+    "power ups" : 4,
+    "color:" : "grey"
+
+  }
+
+}
