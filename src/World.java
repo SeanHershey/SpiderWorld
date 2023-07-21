@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class World extends JPanel {
@@ -7,7 +8,7 @@ public class World extends JPanel {
     private int rows = 5;
     private int columns = 5;
     ArrayList<ArrayList<Cell>> grid = new ArrayList<>();
-
+    private Spider spider = new Spider();
     World(){
         for(int i = 0; i < rows; i++) {
             ArrayList<Cell> row = new ArrayList<>();
@@ -41,6 +42,11 @@ public class World extends JPanel {
                 g.setColor(Color.BLACK);
                 g.fillRect((int) rect.getX(),(int) rect.getY(),(int) rect.getWidth(), (int) rect.getHeight() );
             }
+        }
+        try {
+            this.spider.draw(g);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
