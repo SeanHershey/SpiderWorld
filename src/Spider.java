@@ -17,6 +17,8 @@ public class Spider {
         g.drawImage(image, posX, posY, null);
 
     }
+
+
     public int getX(){return posX;}
 
     public int getY(){return posY;}

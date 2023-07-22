@@ -11,38 +11,29 @@ import org.json.simple.parser.ParseException;
 
 public class World extends JPanel {
     private JSONObject levels;
-    private String level = "1";
+    private String level = "4";
     private long rows;
     private long columns;
+    private Spider spider;
 
 
 
     World(){
-
-        this.setButtons();
-
-        this.fetchLevel();
-
-        this.setLevel();
-
+        setButtons();
+        fetchLevel();
+        setLevel();
         DataSource.getInstance().setGrid(rows, columns);
-
-
-
+        this.spider = new Spider();
     }
 
 
     public void fetchLevel(){
         String filePath = "levels.json";
-
         JSONParser parser = new JSONParser();
-
         try {
             FileReader fileReader = new FileReader(filePath);
             // Parse the JSON data into a JSONObject
             this.levels = (JSONObject) parser.parse(fileReader);
-
-
             // Close the FileReader
             fileReader.close();
 
@@ -53,14 +44,8 @@ public class World extends JPanel {
     }
 
     public void setLevel(){
-        System.out.println("levels: " + levels);
-
         this.rows = (long) ((JSONObject) levels.get(level)).get("rows");
         this.columns = (long) ((JSONObject) levels.get(level)).get("columns");
-        System.out.println("rows: " + rows);
-        System.out.println(((JSONObject) levels.get(level)).get("rows"));
-
-
 
     }
 
@@ -88,11 +73,22 @@ public class World extends JPanel {
 
         for(int i = 0; i < rows; i++) {
             for(int j = 0; j < columns; j++) {
-                Rectangle rect =  DataSource.getInstance().getGrid().get(i).get(j).getRect();
+                Rectangle rect = DataSource.getInstance().getGrid().get(i).get(j).getRect();
                 g.setColor(Color.BLACK);
                 g.fillRect((int) rect.getX(),(int) rect.getY(),(int) rect.getWidth(), (int) rect.getHeight() );
             }
         }
+
+        try {
+            System.out.println("drawing spider");
+            spider.draw(g);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
+
 
 }
