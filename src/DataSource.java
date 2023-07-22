@@ -22,7 +22,10 @@ public class DataSource {
         blocks.add(new Block(x, y, type));
     }
 
-    public void setGrid(int rows, int columns){
+    public void setGrid(long rows, long columns){
+        System.out.println("rows: " + rows);
+        System.out.println("columns: " + columns);
+
         for(int i = 0; i < rows; i++) {
             ArrayList<Cell> row = new ArrayList<>();
             for(int j = 0; j < columns; j++) {
