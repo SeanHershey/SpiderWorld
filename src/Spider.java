@@ -11,10 +11,10 @@ public class Spider {
 
     public void draw(Graphics g) throws IOException {
         System.out.println("spider!!");
-        BufferedImage image = null;
-        File file = new File("src/spider-png-26238.png");
-        image = ImageIO.read(file);
-        g.drawImage(image, posX, posY, null);
+        // BufferedImage image = null;
+        // File file = new File("src/spider-png-26238.png");
+        // image = ImageIO.read(file);
+        // g.drawImage(image, posX, posY, null);
 
     }
 
