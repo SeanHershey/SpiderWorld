@@ -4,6 +4,7 @@ import java.awt.event.*;
 import java.awt.*;
 
 public class WorkArea extends JPanel implements MouseListener, MouseMotionListener {
+
     public WorkArea() {
         addMouseListener(this);
         addMouseMotionListener(this);

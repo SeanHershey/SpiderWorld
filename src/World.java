@@ -1,29 +1,41 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.FileReader;
 import java.io.IOException;
 
-import org.json.simple.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 
-public class World extends JPanel {
+public class World extends JPanel implements MouseListener {
     private JSONObject levels;
     private String level = "4";
     private long rows;
     private long columns;
     private Spider spider;
+    private JButton redButton;
+    private JButton blueButton;
+    private JButton greenButton;
+    private JButton blackButton;
+    private JButton stepButton;
+    private JButton turnButton;
 
 
 
-    World(){
+
+
+    public World(){
+        addMouseListener(this);
+
         setButtons();
         fetchLevel();
         setLevel();
         DataSource.getInstance().setGrid(rows, columns);
         this.spider = new Spider();
+
     }
 
 
@@ -50,19 +62,25 @@ public class World extends JPanel {
     }
 
     public void setButtons(){
-        JButton step = new JButton("step");
-        JButton turn = new JButton("turn");
-        JButton red = new JButton("red");
-        JButton blue = new JButton("blue");
-        JButton green = new JButton("green");
-        JButton black = new JButton("black");
-        add(step);
-        add(turn);
-        add(red);
-        add(blue);
-        add(green);
-        add(black);
+        stepButton = new JButton("step");
+        turnButton = new JButton("turn");
+        redButton = new JButton("red");
+        blueButton = new JButton("blue");
+        greenButton = new JButton("green");
+        blackButton = new JButton("black");
+        add(stepButton);
+        add(turnButton);
+        add(redButton);
+        add(blueButton);
+        add(greenButton);
+        add(blackButton);
 
+        stepButton.addMouseListener(this);
+        turnButton.addMouseListener(this);
+        redButton.addMouseListener(this);
+        blueButton.addMouseListener(this);
+        greenButton.addMouseListener(this);
+        blackButton.addMouseListener(this);
     }
 
 
@@ -80,7 +98,6 @@ public class World extends JPanel {
         }
 
         try {
-            System.out.println("drawing spider");
             spider.draw(g);
 
         } catch (IOException e) {
@@ -89,6 +106,42 @@ public class World extends JPanel {
 
 
     }
+
+
+
+    public void mousePressed(MouseEvent e) {
+        if (e.getSource() instanceof JButton) {
+            JButton clickedButton = (JButton) e.getSource();
+            String buttonLabel = clickedButton.getText();
+
+            switch (buttonLabel) {
+                case "step":
+                    System.out.println("step");
+                    break;
+                case "turn":
+                    System.out.println("turn");
+                    break;
+                case "red":
+                    System.out.println("red");
+                    break;
+                case "blue":
+                    System.out.println("blue");
+                    break;
+                case "green":
+                    System.out.println("green");
+                    break;
+                case "black":
+                    System.out.println("black");
+                    break;
+                default:
+            }
+        }
+    }
+
+    public void mouseClicked(MouseEvent e) {}
+    public void mouseReleased(MouseEvent e) {}
+    public void mouseEntered(MouseEvent e) { }
+    public void mouseExited(MouseEvent e) { }
 
 
 }
