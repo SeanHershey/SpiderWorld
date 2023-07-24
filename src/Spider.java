@@ -10,7 +10,6 @@ public class Spider {
     public static final Color BACKGROUND_GRAY = new Color(230,230,230);
 
     public void draw(Graphics g) throws IOException {
-        System.out.println("spider!!");
         BufferedImage image = null;
         File file = new File("src/spider-png-26238.png");
         image = ImageIO.read(file);
