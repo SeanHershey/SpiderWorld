@@ -30,9 +30,9 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
 
         add(eastPanel, BorderLayout.EAST);
 
-        DataSource.getInstance().addBlock(250,100,"Turn");
-        DataSource.getInstance().addBlock(100,150,"Step");
-        DataSource.getInstance().addBlock(100,100,"Step");
+        DataSource.getInstance().addBlock(300,100,"Turn");
+        DataSource.getInstance().addBlock(300,150,"Step");
+        DataSource.getInstance().addBlock(300,200,"Color");
     }
 
     public void paintComponent (Graphics g) {
