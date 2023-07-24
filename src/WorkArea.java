@@ -14,7 +14,7 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
 
         JPanel eastPanel = new JPanel();
         eastPanel.setBackground(Color.white);
-        eastPanel.setPreferredSize(new Dimension(150, 0));
+        eastPanel.setPreferredSize(new Dimension(120, 0));
         Border blackline = BorderFactory.createLineBorder(Color.gray);
         eastPanel.setBorder(blackline);
 
@@ -26,7 +26,9 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
         addPaletteBlock(eastPanel, "Turn");
         addPaletteBlock(eastPanel, "Step");
         addPaletteBlock(eastPanel, "Color");
-        // DataSource.getInstance().addBlock(100,150,"Step");
+        DataSource.getInstance().addBlock(100,150,"Turn");
+        DataSource.getInstance().addBlock(100,200,"Step");
+        DataSource.getInstance().addBlock(100,250,"Color");
     }
 
     private void addPaletteBlock(JPanel parentPanel, String label) {
@@ -120,15 +122,41 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
     }
 
     public void mousePressed(MouseEvent e) {
-        // ... Your existing code for dragging the blocks ...
+        for (Block block : DataSource.getInstance().getBlockList()) {
+            block.setPreX((int) (block.getX() - e.getX()));
+            block.setPreY((int) (block.getY() - e.getY()));
+            if (block.contains(e.getX(), e.getY())) {
+                block.move(block.getPreX() + e.getX(), block.getPreY() + e.getY());
+                repaint();
+                break;
+            } else {
+                block.setPressOut(true);
+            }
+        }
     }
 
     public void mouseDragged(MouseEvent e) {
-        // ... Your existing code for dragging the blocks ...
+        for (Block block : DataSource.getInstance().getBlockList()) {
+            if (!block.getPressOut()) {
+                block.move(block.getPreX() + e.getX(), block.getPreY() + e.getY());
+                repaint();
+                break;
+            }
+        }
     }
 
     public void mouseReleased(MouseEvent e) {
-        // ... Your existing code for dragging the blocks ...
+        for (Block block : DataSource.getInstance().getBlockList()) {
+            block.setPreX((int) (block.getX() - e.getX()));
+            block.setPreY((int) (block.getY() - e.getY()));
+            if (block.contains(e.getX(), e.getY())) {
+                block.move(block.getPreX() + e.getX(), block.getPreY() + e.getY());
+                repaint();
+                break;
+            } else {
+                block.setPressOut(false);
+            }
+        }
     }
 
     public void mouseMoved(MouseEvent e) { }
