@@ -22,14 +22,14 @@ public class DataSource {
         blocks.add(new Block(x, y, type));
     }
 
-    public void setGrid(long rows, long columns){
+    public void setGrid(long rows, long columns, Color color){
         System.out.println("rows: " + rows);
         System.out.println("columns: " + columns);
 
         for(int i = 0; i < rows; i++) {
             ArrayList<Cell> row = new ArrayList<>();
             for(int j = 0; j < columns; j++) {
-                row.add( new Cell(Color.BLACK, (i * 5) + j, false, 20 + (50*j), 120 + (50 * i), 48, 48 ));
+                row.add( new Cell(color, (i * 5) + j, false, 20 + (50*j), 120 + (50 * i), 48, 48 ));
             }
             grid.add(row);
     } }

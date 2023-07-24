@@ -15,6 +15,8 @@ public class World extends JPanel implements MouseListener {
     private String level = "4";
     private long rows;
     private long columns;
+    private Color color;
+
     private Spider spider;
     private JButton redButton;
     private JButton blueButton;
@@ -23,19 +25,13 @@ public class World extends JPanel implements MouseListener {
     private JButton stepButton;
     private JButton turnButton;
 
-
-
-
-
     public World(){
         addMouseListener(this);
-
         setButtons();
         fetchLevel();
         setLevel();
-        DataSource.getInstance().setGrid(rows, columns);
+        DataSource.getInstance().setGrid(rows, columns, color);
         this.spider = new Spider();
-
     }
 
 
@@ -44,9 +40,7 @@ public class World extends JPanel implements MouseListener {
         JSONParser parser = new JSONParser();
         try {
             FileReader fileReader = new FileReader(filePath);
-            // Parse the JSON data into a JSONObject
             this.levels = (JSONObject) parser.parse(fileReader);
-            // Close the FileReader
             fileReader.close();
 
         } catch (IOException | ParseException e) {
@@ -58,7 +52,11 @@ public class World extends JPanel implements MouseListener {
     public void setLevel(){
         this.rows = (long) ((JSONObject) levels.get(level)).get("rows");
         this.columns = (long) ((JSONObject) levels.get(level)).get("columns");
+        String colorString = (String) ((JSONObject) levels.get(level)).get("color");
 
+        System.out.println("color string:" + colorString + "!");
+        this.color = Color.getColor(colorString);
+        System.out.println("color: " + this.color);
     }
 
     public void setButtons(){
@@ -92,7 +90,7 @@ public class World extends JPanel implements MouseListener {
         for(int i = 0; i < rows; i++) {
             for(int j = 0; j < columns; j++) {
                 Rectangle rect = DataSource.getInstance().getGrid().get(i).get(j).getRect();
-                g.setColor(Color.BLACK);
+                g.setColor(this.color);
                 g.fillRect((int) rect.getX(),(int) rect.getY(),(int) rect.getWidth(), (int) rect.getHeight() );
             }
         }
@@ -104,9 +102,7 @@ public class World extends JPanel implements MouseListener {
             e.printStackTrace();
         }
 
-
     }
-
 
 
     public void mousePressed(MouseEvent e) {

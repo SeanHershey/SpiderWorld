@@ -5,7 +5,7 @@
     "rows" : 10,
     "columns" : 10,
     "power ups" : 3,
-    "color:" : "black"
+    "color" : "yellow"
 
 
   },
@@ -15,7 +15,7 @@
     "rows" : 2,
     "columns" : 2,
     "power ups" : 2,
-    "color:" : "black"
+    "color" : "green"
 
   },
 
@@ -25,7 +25,7 @@
     "rows" : 3,
     "columns" : 3,
     "power ups" : 3,
-    "color:" : "black"
+    "color" : "blue"
 
   },
   "4" :
@@ -33,7 +33,7 @@
     "rows" : 4,
     "columns" : 4,
     "power ups" : 4,
-    "color:" : "grey"
+    "color" : "red"
 
   }
 
