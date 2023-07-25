@@ -26,6 +26,7 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
         addPaletteBlock(eastPanel, "Turn");
         addPaletteBlock(eastPanel, "Step");
         addPaletteBlock(eastPanel, "Color");
+        // DataSource.getInstance().addBlock(100,150,"Step");
     }
 
     private void addPaletteBlock(JPanel parentPanel, String label) {

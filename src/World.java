@@ -15,6 +15,8 @@ public class World extends JPanel implements MouseListener {
     private String level = "4";
     private long rows;
     private long columns;
+    private Color color;
+
     private Spider spider;
     private JButton redButton;
     private JButton blueButton;
@@ -25,36 +27,36 @@ public class World extends JPanel implements MouseListener {
 
     public World(){
         addMouseListener(this);
-
         setButtons();
         fetchLevel();
         setLevel();
-        DataSource.getInstance().setGrid(rows, columns);
+        DataSource.getInstance().setGrid(rows, columns, color);
         this.spider = new Spider();
-
     }
 
 
     public void fetchLevel(){
         String filePath = "levels.json";
-        // JSONParser parser = new JSONParser();
-        // try {
-        //     FileReader fileReader = new FileReader(filePath);
-        //     // Parse the JSON data into a JSONObject
-        //     this.levels = (JSONObject) parser.parse(fileReader);
-        //     // Close the FileReader
-        //     fileReader.close();
+        JSONParser parser = new JSONParser();
+        try {
+            FileReader fileReader = new FileReader(filePath);
+            this.levels = (JSONObject) parser.parse(fileReader);
+            fileReader.close();
 
-        // } catch (IOException | ParseException e) {
-        //     e.printStackTrace();
-        // }
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
 
     }
 
     public void setLevel(){
-        // this.rows = (long) ((JSONObject) levels.get(level)).get("rows");
-        // this.columns = (long) ((JSONObject) levels.get(level)).get("columns");
+        this.rows = (long) ((JSONObject) levels.get(level)).get("rows");
+        this.columns = (long) ((JSONObject) levels.get(level)).get("columns");
+        String colorString = (String) ((JSONObject) levels.get(level)).get("color");
 
+        System.out.println("color string:" + colorString + "!");
+        this.color = Color.getColor(colorString);
+        System.out.println("color: " + this.color);
     }
 
     public void setButtons(){
@@ -88,7 +90,7 @@ public class World extends JPanel implements MouseListener {
         for(int i = 0; i < rows; i++) {
             for(int j = 0; j < columns; j++) {
                 Rectangle rect = DataSource.getInstance().getGrid().get(i).get(j).getRect();
-                g.setColor(Color.BLACK);
+                g.setColor(this.color);
                 g.fillRect((int) rect.getX(),(int) rect.getY(),(int) rect.getWidth(), (int) rect.getHeight() );
             }
         }
@@ -99,6 +101,7 @@ public class World extends JPanel implements MouseListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     @Override
@@ -125,5 +128,40 @@ public class World extends JPanel implements MouseListener {
     public void mouseExited(MouseEvent e) {
         // Implementation for mouseExited event
     }
+
+    public void mousePressed(MouseEvent e) {
+        if (e.getSource() instanceof JButton) {
+            JButton clickedButton = (JButton) e.getSource();
+            String buttonLabel = clickedButton.getText();
+
+            switch (buttonLabel) {
+                case "step":
+                    System.out.println("step");
+                    break;
+                case "turn":
+                    System.out.println("turn");
+                    break;
+                case "red":
+                    System.out.println("red");
+                    break;
+                case "blue":
+                    System.out.println("blue");
+                    break;
+                case "green":
+                    System.out.println("green");
+                    break;
+                case "black":
+                    System.out.println("black");
+                    break;
+                default:
+            }
+        }
+    }
+
+    public void mouseClicked(MouseEvent e) {}
+    public void mouseReleased(MouseEvent e) {}
+    public void mouseEntered(MouseEvent e) { }
+    public void mouseExited(MouseEvent e) { }
+
 
 }

@@ -1,7 +1,7 @@
 import java.awt.*;
 
 public class Cell extends Rectangle {
-    private Color color = Color.BLACK;
+    private Color color = Color.RED;
     private int id;
     private boolean spider;
     private Rectangle rect;
