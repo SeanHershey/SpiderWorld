@@ -5,13 +5,13 @@ import java.awt.event.MouseListener;
 import java.io.FileReader;
 import java.io.IOException;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+// import org.json.simple.JSONObject;
+// import org.json.simple.parser.JSONParser;
+// import org.json.simple.parser.ParseException;
 
 
 public class World extends JPanel implements MouseListener {
-    private JSONObject levels;
+    // private JSONObject levels;
     private String level = "4";
     private long rows;
     private long columns;
@@ -22,10 +22,6 @@ public class World extends JPanel implements MouseListener {
     private JButton blackButton;
     private JButton stepButton;
     private JButton turnButton;
-
-
-
-
 
     public World(){
         addMouseListener(this);
@@ -105,5 +101,29 @@ public class World extends JPanel implements MouseListener {
         }
     }
 
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        // Implementation for mouseClicked event
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        // Implementation for mousePressed event
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        // Implementation for mouseReleased event
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        // Implementation for mouseEntered event
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        // Implementation for mouseExited event
+    }
 
 }
