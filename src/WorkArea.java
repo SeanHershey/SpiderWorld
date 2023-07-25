@@ -26,9 +26,6 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
         addPaletteBlock(eastPanel, "Turn");
         addPaletteBlock(eastPanel, "Step");
         addPaletteBlock(eastPanel, "Color");
-        DataSource.getInstance().addBlock(100,150,"Turn");
-        DataSource.getInstance().addBlock(100,200,"Step");
-        DataSource.getInstance().addBlock(100,250,"Color");
     }
 
     private void addPaletteBlock(JPanel parentPanel, String label) {
@@ -55,9 +52,18 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
                 int x = blockPanel.getX() + e.getX() - blockPanel.getWidth()/2;
                 int y = blockPanel.getY() + e.getY() - blockPanel.getHeight()/2;
 
+                if (label == "Turn") {
+                    DataSource.getInstance().addBlock(300,10,label);
+                }
+                if (label == "Step") {
+                    DataSource.getInstance().addBlock(300,50,label);
+                }
+                if (label == "Color") {
+                    DataSource.getInstance().addBlock(300,90,label);
+                }
+
                 duplicatePanel = new JPanel();
                 duplicatePanel.setPreferredSize(new Dimension(100, 30));
-                duplicatePanel.setBackground(Color.BLACK);
 
                 JLabel duplicateLabel = new JLabel(label);
                 duplicatePanel.add(duplicateLabel);
@@ -72,7 +78,7 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
                 parentPanel.setComponentZOrder(duplicatePanel, 0);
                 parentPanel.revalidate();
                 parentPanel.repaint();
-                System.out.println("mousePressed");
+                // System.out.println("mousePressed");
             }
 
             @Override
@@ -80,7 +86,7 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
                 parentPanel.remove(duplicatePanel);
                 parentPanel.revalidate();
                 parentPanel.repaint();
-                System.out.println("mouseReleased");
+                // System.out.println("mouseReleased");
             }
         });
 
@@ -94,7 +100,7 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
                 parentPanel.revalidate();
                 parentPanel.repaint();
                 
-                System.out.println("mousedragged");
+                // System.out.println("mousedragged");
             }
         });
 
@@ -151,6 +157,7 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
             block.setPreY((int) (block.getY() - e.getY()));
             if (block.contains(e.getX(), e.getY())) {
                 block.move(block.getPreX() + e.getX(), block.getPreY() + e.getY());
+                ConnectHelper.snap(block);
                 repaint();
                 break;
             } else {

@@ -1,13 +1,13 @@
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Stack;
 
 public class DataSource {
     private static DataSource instance;
     Stack<Block> blocks = new Stack<Block>();
+    Stack<String> instructions = new Stack<String>();
     ArrayList<ArrayList<Cell>> grid = new ArrayList<>();
-
-
 
     private DataSource() { }
 
@@ -34,12 +34,54 @@ public class DataSource {
             grid.add(row);
     } }
 
-    public ArrayList<ArrayList<Cell>> getGrid(){
+    public ArrayList<ArrayList<Cell>> getGrid() {
         return this.grid;
     }
 
-    public Stack<Block> getBlockList(){
+    public Stack<Block> getBlockList() {
         return this.blocks;
+    }
+
+    public Stack<String> getInstructions() {
+        LinkedList<Block> done = new LinkedList<Block>();
+
+        instructions.clear();
+
+        for (Block block : blocks) {
+            if (block.getAbove() != null) {
+                System.out.print(" ("+ block.getAbove().getType() + ")");
+            }
+            else {
+                System.out.print(" (NONE) ");
+            }
+            System.out.print(block.getType());
+            if (block.getBelow() != null) {
+                System.out.println(" ("+ block.getBelow().getType() + ")");
+            }
+            else {
+                System.out.println(" (NONE) ");
+            }
+        }
+
+        for (Block block : blocks) {
+            if (!done.contains(block)) {
+                Block b = block;
+                while (b.getBelow() != null) {
+                    instructions.add(b.getType());
+                    done.add(b);
+                    b = b.getBelow();
+                }
+            }
+        }
+
+        for (Block block : blocks) {
+            if (!done.contains(block)) {
+                instructions.add(block.getType());
+                done.add(block);
+            }
+        }
+
+        return instructions;
     }
 
 }

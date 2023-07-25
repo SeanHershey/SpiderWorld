@@ -4,6 +4,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Stack;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -54,9 +56,9 @@ public class World extends JPanel implements MouseListener {
         this.columns = (long) ((JSONObject) levels.get(level)).get("columns");
         String colorString = (String) ((JSONObject) levels.get(level)).get("color");
 
-        System.out.println("color string:" + colorString + "!");
+        // System.out.println("color string:" + colorString + "!");
         this.color = Color.getColor(colorString);
-        System.out.println("color: " + this.color);
+        // System.out.println("color: " + this.color);
     }
 
     public void setButtons(){
@@ -102,10 +104,17 @@ public class World extends JPanel implements MouseListener {
             e.printStackTrace();
         }
 
+        Stack<String> intsructions = DataSource.getInstance().getInstructions();
+        for (String type : intsructions) {
+            System.out.print(type + ",");
+        }
+        System.out.println("");
+
     }
 
 
     public void mousePressed(MouseEvent e) {
+        repaint();
         if (e.getSource() instanceof JButton) {
             JButton clickedButton = (JButton) e.getSource();
             String buttonLabel = clickedButton.getText();

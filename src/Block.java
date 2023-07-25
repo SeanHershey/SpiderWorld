@@ -6,6 +6,8 @@ public class Block {
     private boolean pressOut;
     private int preX;
     private int preY;
+    private Block above;
+    private Block below;
 
     public Block(int x, int y, String t) {
         this.type = t;
@@ -37,6 +39,11 @@ public class Block {
     public void setPreY(int y) { preY = y; }
     public int getPreX() { return preX; }
     public int getPreY() { return preY; }
+    public void setBelow(Block b) {  below = b; };
+    public Block getBelow() { return below; };
+    public void setAbove(Block b) {  above = b; };
+    public Block getAbove() { return above; };
+    public String getType() {return type;};
 
     public void setPressOut(boolean a) { pressOut = a; }
     public boolean getPressOut() { return pressOut; }
