@@ -64,12 +64,20 @@ public class DataSource {
         }
 
         for (Block block : blocks) {
-            if (!done.contains(block)) {
-                Block b = block;
-                while (b.getBelow() != null) {
+            if (block.getAbove() == null && block.getBelow() != null)
+            {
+                System.out.println("!"+block.getType()+"!");
+                if (!done.contains(block)) {
+                    Block b = block;
                     instructions.add(b.getType());
                     done.add(b);
                     b = b.getBelow();
+                    while (b != null) {
+                        System.out.println("?"+b.getType()+"?");
+                        instructions.add(b.getType());
+                        done.add(b);
+                        b = b.getBelow();
+                    }
                 }
             }
         }

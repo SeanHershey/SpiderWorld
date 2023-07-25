@@ -6,7 +6,7 @@ public class ConnectHelper {
                 if (b.getBelow().getY() < b.getY()) {
                     b.getBelow().setAbove(null);
                     b.setBelow(null);
-                    System.out.println(block.getType() + "rem");
+                    // System.out.println(block.getType() + "rem");
                 }
             }
         }
@@ -15,7 +15,7 @@ public class ConnectHelper {
             if ((block.getBelow() == b) && ((Math.abs(block.getX() - b.getX()) < 50) && (block.getY() - b.getY() < 50))) {
                 block.getBelow().setAbove(null);
                 block.setBelow(null);
-                System.out.println(block.getType() + "rem1");
+                // System.out.println(block.getType() + "rem1");
             }
         }
 
@@ -27,21 +27,14 @@ public class ConnectHelper {
                     if (block2.getBelow() == null) {
                         block2.setBelow(block);
                         block.setAbove(block2);
-                        System.out.println(block2.getType() + "set" + block.getType());
-                    }
-                    else if (block2.getBelow() != block) {
-                        block.setBelow(block2.getBelow());
-                        block2.getBelow().setAbove(block);
-                        block2.setBelow(block);
-                        block.setAbove(block2);
-                        System.out.println(block.getType() + "set" + block2.getBelow().getType() +" and " + block2.getType() + "set" + block.getType());
+                        // System.out.println(block2.getType() + "set" + block.getType());
                     }
                     block.move(block2.getX(), block2.getY() + 32);
                 }
                 else if (block2.getBelow() == block){
                     block2.setBelow(null);
                     block.setAbove(null);
-                    System.out.println(block2.getType() + "rem2");
+                    // System.out.println(block2.getType() + "rem2");
                 }
             }
         }

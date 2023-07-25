@@ -81,8 +81,9 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
                 }
                 parentPanel.revalidate();
                 parentPanel.repaint();
-                System.out.println("mouseReleased");
+                // System.out.println("mouseReleased");
                 DataSource.getInstance().addBlock(x + parentPanel.getParent().getWidth() - parentPanel.getWidth() ,y ,label);
+                ConnectHelper.snap(DataSource.getInstance().getBlockList().peek());
             }
         });
 
@@ -97,7 +98,7 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
                 parentPanel.repaint();
                 parentPanel.getParent().revalidate();
                 parentPanel.getParent().repaint();
-                System.out.println("mouseDragged");
+                // System.out.println("mouseDragged");
             }
         });
         parentPanel.add(blockPanel);
