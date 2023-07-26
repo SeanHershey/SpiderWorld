@@ -44,36 +44,17 @@ public class DataSource {
 
     public Stack<String> getInstructions() {
         LinkedList<Block> done = new LinkedList<Block>();
-
         instructions.clear();
-
-        for (Block block : blocks) {
-            if (block.getAbove() != null) {
-                System.out.print(" ("+ block.getAbove().getType() + ")");
-            }
-            else {
-                System.out.print(" (NONE) ");
-            }
-            System.out.print(block.getType());
-            if (block.getBelow() != null) {
-                System.out.println(" ("+ block.getBelow().getType() + ")");
-            }
-            else {
-                System.out.println(" (NONE) ");
-            }
-        }
 
         for (Block block : blocks) {
             if (block.getAbove() == null && block.getBelow() != null)
             {
-                System.out.println("!"+block.getType()+"!");
                 if (!done.contains(block)) {
                     Block b = block;
                     instructions.add(b.getType());
                     done.add(b);
                     b = b.getBelow();
                     while (b != null) {
-                        System.out.println("?"+b.getType()+"?");
                         instructions.add(b.getType());
                         done.add(b);
                         b = b.getBelow();

@@ -15,8 +15,6 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
         JPanel eastPanel = new JPanel();
         eastPanel.setBackground(new Color(180, 180, 180, 80));
         eastPanel.setPreferredSize(new Dimension(150, 0));
-        // Border blackline = BorderFactory.createLineBorder(Color.gray);
-        // eastPanel.setBorder(blackline);
 
         BorderLayout layout = new BorderLayout();
         setLayout(layout);
