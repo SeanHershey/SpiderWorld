@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.event.*;
+import java.util.LinkedList;
 import java.awt.*;
 
 // need to check if the block's location is valid in mouseReleased
@@ -110,16 +111,29 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
         super.setBorder(blackline);
 
         // trash can
-        g2.setColor(Color.lightGray);
+        g2.setColor(Color.darkGray);
         g2.fillRoundRect(20, 680, 35, 40, 10, 10);
         g2.setColor(getBackground());
         g2.fillRect(20, 670, 35, 15);
-        g2.setColor(Color.lightGray);
+        g2.setColor(Color.darkGray);
         g2.fillRect(17, 675, 42, 6);
         g2.fillRoundRect(27, 671, 21, 6, 5, 5);
 
-        for (Block block : DataSource.getInstance().getBlockList()) {
-            block.paint(g2);
+        LinkedList<Block> unpainted = new LinkedList<Block>();
+        for (Block b : DataSource.getInstance().getBlockList()) {
+            unpainted.add(b);
+        }
+        while (unpainted.size() > 0) {
+            int maxY = 0;
+            Block bottom = null;
+            for (Block b : unpainted) {
+                if (b.getY() > maxY) {
+                    bottom = b;
+                    maxY = b.getY();
+                }
+            }
+            bottom.paint(g2);
+            unpainted.remove(bottom);
         }
     }
 
