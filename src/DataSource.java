@@ -28,11 +28,18 @@ public class DataSource {
 
         for(int i = 0; i < rows; i++) {
             ArrayList<Cell> row = new ArrayList<>();
-            for(int j = 0; j < columns; j++) {
-                row.add( new Cell(color, (i * 5) + j, false, 20 + (50*j), 120 + (50 * i), 48, 48 ));
+            for (int j = 0; j < columns; j++) {
+                if (i == 0 && j == 0) {
+                    row.add(new Cell(color, (i * 5) + j, true, 20 + (50 * j), 120 + (50 * i), 48, 48));
+                } else {
+                    row.add(new Cell(color, (i * 5) + j, false, 20 + (50 * j), 120 + (50 * i), 48, 48));
+                }
             }
+
             grid.add(row);
-    } }
+        }
+        System.out.println(grid);
+    }
 
     public ArrayList<ArrayList<Cell>> getGrid() {
         return this.grid;

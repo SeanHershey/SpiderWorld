@@ -1,13 +1,13 @@
 import java.awt.*;
 
 public class Cell extends Rectangle {
-    private Color color = Color.RED;
+    private Color c = Color.BLACK;
     private int id;
     private boolean spider;
     private Rectangle rect;
 
     Cell(Color color, int id, boolean spider, int x, int y, int width, int height){
-        this.color = color;
+       /* this.c = color; */
         this.id = id;
         if(this.id == 0){this.spider = true;}
         else{this.spider = false;}
@@ -15,7 +15,11 @@ public class Cell extends Rectangle {
     }
 
     public Color getColor() {
-        return color;
+        System.out.println("in get color");
+        return this.c;
+    }
+    public void setColor(Color colors){
+        this.c = colors;
     }
     public Rectangle getRect(){
         return this.rect;
@@ -27,6 +31,9 @@ public class Cell extends Rectangle {
 
     public boolean getSpider(){
         return this.spider;
+    }
+    public void setSpider(Boolean boo){
+        this.spider = boo;
     }
 
 
