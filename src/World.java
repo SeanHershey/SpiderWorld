@@ -15,7 +15,7 @@ public class World extends JPanel implements MouseListener {
     private String level = "4";
     private long rows;
     private long columns;
-    private Color color;
+    private Color c  = Color.BLACK;
 
     private Spider spider;
     private JButton redButton;
@@ -30,7 +30,7 @@ public class World extends JPanel implements MouseListener {
         setButtons();
         fetchLevel();
         setLevel();
-        DataSource.getInstance().setGrid(rows, columns, color);
+        DataSource.getInstance().setGrid(rows, columns, c);
         this.spider = new Spider();
     }
 
@@ -55,8 +55,9 @@ public class World extends JPanel implements MouseListener {
         String colorString = (String) ((JSONObject) levels.get(level)).get("color");
 
         System.out.println("color string:" + colorString + "!");
-        this.color = Color.getColor(colorString);
-        System.out.println("color: " + this.color);
+
+        //this.c = Color.getColor(colorString);
+        System.out.println("color: " + this.c);
     }
 
     public void setButtons(){
@@ -90,7 +91,7 @@ public class World extends JPanel implements MouseListener {
         for(int i = 0; i < rows; i++) {
             for(int j = 0; j < columns; j++) {
                 Rectangle rect = DataSource.getInstance().getGrid().get(i).get(j).getRect();
-                g.setColor(this.color);
+                g.setColor(this.c);
                 g.fillRect((int) rect.getX(),(int) rect.getY(),(int) rect.getWidth(), (int) rect.getHeight() );
             }
         }
