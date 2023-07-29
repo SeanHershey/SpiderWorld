@@ -1,22 +1,21 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.event.*;
+import java.util.LinkedList;
 import java.awt.*;
 
+// need to check if the block's location is valid in mouseReleased
 public class WorkArea extends JPanel implements MouseListener, MouseMotionListener {
-    private JPanel dragPanel;
-    private int offsetX, offsetY;
-    private JPanel duplicatePanel; // Store the duplicate panel
+    private int x, y;
+    private JPanel duplicatePanel;
 
     public WorkArea() {
         addMouseListener(this);
         addMouseMotionListener(this);
 
         JPanel eastPanel = new JPanel();
-        eastPanel.setBackground(Color.white);
+        eastPanel.setBackground(new Color(180, 180, 180, 80));
         eastPanel.setPreferredSize(new Dimension(150, 0));
-        Border blackline = BorderFactory.createLineBorder(Color.gray);
-        eastPanel.setBorder(blackline);
 
         BorderLayout layout = new BorderLayout();
         setLayout(layout);
@@ -26,10 +25,10 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
         addPaletteBlock(eastPanel, "Turn");
         addPaletteBlock(eastPanel, "Step");
         addPaletteBlock(eastPanel, "Color");
-        // DataSource.getInstance().addBlock(100,150,"Step");
     }
 
     private void addPaletteBlock(JPanel parentPanel, String label) {
+        
         JPanel blockPanel = new JPanel();
         blockPanel.setPreferredSize(new Dimension(100, 30));
 
@@ -50,35 +49,40 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
 
             @Override
             public void mousePressed(MouseEvent e) {
-                int x = blockPanel.getX() + e.getX() - blockPanel.getWidth()/2;
-                int y = blockPanel.getY() + e.getY() - blockPanel.getHeight()/2;
-
+                x = blockPanel.getX() + e.getX() - blockPanel.getWidth()/2;
+                y = blockPanel.getY() + e.getY() - blockPanel.getHeight()/2;
+                
                 duplicatePanel = new JPanel();
                 duplicatePanel.setPreferredSize(new Dimension(100, 30));
-                duplicatePanel.setBackground(Color.BLACK);
 
                 JLabel duplicateLabel = new JLabel(label);
                 duplicatePanel.add(duplicateLabel);
+                duplicatePanel.setBounds(x - blockPanel.getParent().getWidth(), y, blockPanel.getWidth(), blockPanel.getHeight());
 
-                duplicatePanel.setBounds(x, y, blockPanel.getWidth(), blockPanel.getHeight());
-                offsetX = e.getX() - blockPanel.getWidth()/2;
-                offsetY = e.getY() - blockPanel.getHeight()/2;
+                // Add the duplicate panel to the grandParent panel, then repaint
+                Container grandParent = parentPanel.getParent();
+                if (grandParent instanceof JPanel) {
+                    ((JPanel) grandParent).setLayout(null);
+                    ((JPanel) grandParent).add(duplicatePanel);
+                    ((JPanel) grandParent).setComponentZOrder(duplicatePanel, 0);
+                }
 
-                // Add the duplicate panel to the parent panel, then repaint
-                parentPanel.setLayout(null);
-                parentPanel.add(duplicatePanel);
-                parentPanel.setComponentZOrder(duplicatePanel, 0);
                 parentPanel.revalidate();
                 parentPanel.repaint();
-                System.out.println("mousePressed");
+                // System.out.println("mousePressed");
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                parentPanel.remove(duplicatePanel);
+                Container grandParent = parentPanel.getParent();
+                if (grandParent instanceof JPanel) {
+                    ((JPanel) grandParent).remove(duplicatePanel);
+                }
                 parentPanel.revalidate();
                 parentPanel.repaint();
-                System.out.println("mouseReleased");
+                // System.out.println("mouseReleased");
+                DataSource.getInstance().addBlock(x + parentPanel.getParent().getWidth() - parentPanel.getWidth() ,y ,label);
+                ConnectHelper.snap(DataSource.getInstance().getBlockList().peek());
             }
         });
 
@@ -86,16 +90,16 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
             @Override
             public void mouseDragged(MouseEvent e) {
                 // Update the position of the duplicate panel to follow the cursor
-                int x = e.getX() - offsetX;
-                int y = e.getY() - offsetY;
-                duplicatePanel.setBounds(x, y, duplicatePanel.getWidth(), duplicatePanel.getHeight());
+                x = blockPanel.getX() + e.getX() - blockPanel.getWidth()/2;
+                y = blockPanel.getY() + e.getY() - blockPanel.getHeight()/2;
+                duplicatePanel.setBounds(x + parentPanel.getParent().getWidth() - parentPanel.getWidth() , y , duplicatePanel.getWidth(), duplicatePanel.getHeight());
                 parentPanel.revalidate();
                 parentPanel.repaint();
-                
-                System.out.println("mousedragged");
+                parentPanel.getParent().revalidate();
+                parentPanel.getParent().repaint();
+                // System.out.println("mouseDragged");
             }
         });
-
         parentPanel.add(blockPanel);
     }
 
@@ -106,29 +110,70 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
         Border blackline = BorderFactory.createLineBorder(Color.black);
         super.setBorder(blackline);
 
-        g2.setColor(Color.lightGray);
+        // trash can
+        g2.setColor(Color.darkGray);
         g2.fillRoundRect(20, 680, 35, 40, 10, 10);
         g2.setColor(getBackground());
         g2.fillRect(20, 670, 35, 15);
-        g2.setColor(Color.lightGray);
+        g2.setColor(Color.darkGray);
         g2.fillRect(17, 675, 42, 6);
         g2.fillRoundRect(27, 671, 21, 6, 5, 5);
 
-        for (Block block : DataSource.getInstance().getBlockList()) {
-            block.paint(g2);
+        LinkedList<Block> unpainted = new LinkedList<Block>();
+        for (Block b : DataSource.getInstance().getBlockList()) {
+            unpainted.add(b);
+        }
+        while (unpainted.size() > 0) {
+            int maxY = 0;
+            Block bottom = null;
+            for (Block b : unpainted) {
+                if (b.getY() > maxY) {
+                    bottom = b;
+                    maxY = b.getY();
+                }
+            }
+            bottom.paint(g2);
+            unpainted.remove(bottom);
         }
     }
 
     public void mousePressed(MouseEvent e) {
-        // ... Your existing code for dragging the blocks ...
+        for (Block block : DataSource.getInstance().getBlockList()) {
+            block.setPreX((int) (block.getX() - e.getX()));
+            block.setPreY((int) (block.getY() - e.getY()));
+            if (block.contains(e.getX(), e.getY())) {
+                block.move(block.getPreX() + e.getX(), block.getPreY() + e.getY());
+                repaint();
+                break;
+            } else {
+                block.setPressOut(true);
+            }
+        }
     }
 
     public void mouseDragged(MouseEvent e) {
-        // ... Your existing code for dragging the blocks ...
+        for (Block block : DataSource.getInstance().getBlockList()) {
+            if (!block.getPressOut()) {
+                block.move(block.getPreX() + e.getX(), block.getPreY() + e.getY());
+                repaint();
+                break;
+            }
+        }
     }
 
     public void mouseReleased(MouseEvent e) {
-        // ... Your existing code for dragging the blocks ...
+        for (Block block : DataSource.getInstance().getBlockList()) {
+            block.setPreX((int) (block.getX() - e.getX()));
+            block.setPreY((int) (block.getY() - e.getY()));
+            if (block.contains(e.getX(), e.getY())) {
+                block.move(block.getPreX() + e.getX(), block.getPreY() + e.getY());
+                ConnectHelper.snap(block);
+                repaint();
+                break;
+            } else {
+                block.setPressOut(false);
+            }
+        }
     }
 
     public void mouseMoved(MouseEvent e) { }
