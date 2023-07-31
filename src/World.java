@@ -149,6 +149,22 @@ public class World extends JPanel implements MouseListener {
         }
     }
 
+    public boolean checkWin(){
+        ArrayList<ArrayList<Cell>> g = DataSource.getInstance().getGrid();
+        for(int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                Cell c = DataSource.getInstance().getGrid().get(i).get(j);;
+                if ( c.getTarget() == true && c.getColor() != c.getTargetColor() ){
+                    return false;
+                }
+            }
+        }
+        JOptionPane.showMessageDialog(null, "Winner Winner Chicken Dinner!");
+        changeLevel();
+
+        return true;
+    }
+
     public ArrayList<Integer> chooseTargets(){
         long valid_indexes_1 = (this.rows * this.columns) - 1;
         int valid_indexes = (int) valid_indexes_1;
@@ -266,18 +282,22 @@ public class World extends JPanel implements MouseListener {
                 case "red":
                     System.out.println("red");
                     setGrid(Color.red);
+                    checkWin();
                     break;
                 case "blue":
                     System.out.println("blue");
                     setGrid(Color.BLUE);
+                    checkWin();
                     break;
                 case "green":
                     System.out.println("green");
                     setGrid(Color.GREEN);
+                    checkWin();
                     break;
                 case "black":
                     System.out.println("black");
                     setGrid(Color.BLACK);
+                    checkWin();
                     break;
                 case "level1":
                     level = "1";
