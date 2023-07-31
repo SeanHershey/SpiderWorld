@@ -12,11 +12,6 @@ public class Game extends JFrame {
     public Game() {
         super("Spider World");
 
-        JPanel northPanel = new JPanel();
-        northPanel.setBackground(Color.white);
-        JLabel l1 = new JLabel("Level Bar");
-        northPanel.add(l1);
-
         JPanel centerPanel = new JPanel();
         centerPanel.setBackground(Color.white);
         GridLayout grid = new GridLayout(1,2);
@@ -33,7 +28,6 @@ public class Game extends JFrame {
 
         BorderLayout layout = new BorderLayout();
         setLayout(layout);
-        add(northPanel, BorderLayout.NORTH);
         add(centerPanel, BorderLayout.CENTER);
     }
 }

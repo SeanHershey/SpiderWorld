@@ -34,6 +34,8 @@ public class World extends JPanel implements MouseListener {
     private JButton level3;
     private JButton level4;
 
+    private JButton runButton;
+
     private int posI = 0;
     private int posJ = 0;
 
@@ -89,17 +91,33 @@ public class World extends JPanel implements MouseListener {
         level2 = new JButton("level2");
         level3 = new JButton("level3");
         level4 = new JButton("level4");
+        runButton = new JButton("Run");
 
-        add(stepButton);
-        add(turnButton);
-        add(redButton);
-        add(blueButton);
-        add(greenButton);
-        add(blackButton);
-        add(level1);
-        add(level2);
-        add(level3);
-        add(level4);
+        JPanel northPanel = new JPanel();
+        northPanel.setPreferredSize(new Dimension(northPanel.getWidth(), 100));
+        northPanel.add(stepButton);
+        northPanel.add(turnButton);
+        northPanel.add(redButton);
+        northPanel.add(blueButton);
+        northPanel.add(greenButton);
+        northPanel.add(blackButton);
+        northPanel.add(level1);
+        northPanel.add(level2);
+        northPanel.add(level3);
+        northPanel.add(level4);
+
+        JPanel runPanel = new JPanel();
+        runPanel.setLayout(new GridLayout(20,1));
+        JPanel[] panelHolder = new JPanel[5];
+        for(int i = 0; i < 5; i++) { 
+            panelHolder[i] = new JPanel();
+            runPanel.add(panelHolder[i]);
+        }
+        runPanel.add(runButton);
+
+        setLayout(new BorderLayout());
+        add(northPanel, BorderLayout.NORTH);
+        add(runPanel, BorderLayout.EAST);
 
         stepButton.addMouseListener(this);
         turnButton.addMouseListener(this);
@@ -112,6 +130,8 @@ public class World extends JPanel implements MouseListener {
         level2.addMouseListener(this);
         level3.addMouseListener(this);
         level4.addMouseListener(this);
+
+        runButton.addMouseListener(this);
     }
 
 
