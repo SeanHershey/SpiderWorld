@@ -51,31 +51,28 @@ public class Spider extends JPanel {
     }
     public void step() {
         if(this.pic[this.index].equals( "000.png")){
-            posY = posY - 52;
+            posY = posY - 50;
             repaint();
         }
         if(this.pic[this.index].equals( "090.png")){
             System.out.println("got it");
-            posX = posX + 52;
+            posX = posX + 50;
             repaint();
         }
         if(this.pic[this.index].equals( "180.png")){
-            posY = posY + 52;
+            posY = posY + 50;
             repaint();
         }
         if(this.pic[this.index].equals("270.png")){
-            posX = posX - 52;
+            posX = posX - 50;
             repaint();
         }
-
-
 
     }
 
 
 
     public void turn() {
-        System.out.println("TUUUUUUUUURNING");
         if (this.angle == 0) {
             this.angle = 90;
             this.index = 1;

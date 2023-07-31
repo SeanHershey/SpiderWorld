@@ -22,16 +22,21 @@ public class DataSource {
         blocks.add(new Block(x, y, type));
     }
 
-    public void setGrid(long rows, long columns, Color color){
+    public void setGrid(long rows, long columns, Color color, ArrayList<Integer> targets){
         grid = new ArrayList<>();
 
         for(int i = 0; i < rows; i++) {
             ArrayList<Cell> row = new ArrayList<>();
             for (int j = 0; j < columns; j++) {
+                long val_2 = (i * columns) + j;
+                int val = (int) val_2;
+
+                boolean target_bool = targets.contains((val));
+
                 if (i == 0 && j == 0) {
-                    row.add(new Cell(color, (i * 5) + j, true, 20 + (50 * j), 120 + (50 * i), 48, 48));
+                    row.add(new Cell(color, (i * 5) + j, true, 20 + (50 * j), 120 + (50 * i), 48, 48, target_bool));
                 } else {
-                    row.add(new Cell(color, (i * 5) + j, false, 20 + (50 * j), 120 + (50 * i), 48, 48));
+                    row.add(new Cell(color, (i * 5) + j, false, 20 + (50 * j), 120 + (50 * i), 48, 48, target_bool));
                 }
             }
 

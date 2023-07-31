@@ -27,7 +27,6 @@ public class World extends JPanel implements MouseListener {
     private JButton blackButton;
     private JButton stepButton;
     private JButton turnButton;
-    private JButton runButton;
     private JButton level1;
     private JButton level2;
     private JButton level3;
@@ -88,38 +87,21 @@ public class World extends JPanel implements MouseListener {
         blueButton = new JButton("blue");
         greenButton = new JButton("green");
         blackButton = new JButton("black");
-
         level1 = new JButton("level1");
         level2 = new JButton("level2");
         level3 = new JButton("level3");
         level4 = new JButton("level4");
 
-        runButton = new JButton("Run");
-
-        JPanel northPanel = new JPanel();
-        northPanel.add(stepButton);
-        northPanel.add(turnButton);
-        northPanel.add(redButton);
-        northPanel.add(blueButton);
-        northPanel.add(greenButton);
-        northPanel.add(blackButton);
-        northPanel.add(level1);
-        northPanel.add(level2);
-        northPanel.add(level3);
-        northPanel.add(level4);
-
-        JPanel runPanel = new JPanel();
-        runPanel.setLayout(new GridLayout(20,1));
-        JPanel[] panelHolder = new JPanel[5];
-        for(int i = 0; i < 5; i++) { 
-            panelHolder[i] = new JPanel();
-            runPanel.add(panelHolder[i]);
-        }
-        runPanel.add(runButton);
-
-        setLayout(new BorderLayout());
-        add(northPanel, BorderLayout.NORTH);
-        add(runPanel, BorderLayout.EAST);
+        add(stepButton);
+        add(turnButton);
+        add(redButton);
+        add(blueButton);
+        add(greenButton);
+        add(blackButton);
+        add(level1);
+        add(level2);
+        add(level3);
+        add(level4);
 
         stepButton.addMouseListener(this);
         turnButton.addMouseListener(this);
@@ -127,7 +109,7 @@ public class World extends JPanel implements MouseListener {
         blueButton.addMouseListener(this);
         greenButton.addMouseListener(this);
         blackButton.addMouseListener(this);
-        runButton.addMouseListener(this);
+
         level1.addMouseListener(this);
         level2.addMouseListener(this);
         level3.addMouseListener(this);
@@ -156,6 +138,13 @@ public class World extends JPanel implements MouseListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // To Get Block Instructions 
+        Stack<String> intsructions = DataSource.getInstance().getInstructions();
+        for (String type : intsructions) {
+            System.out.print(type + ",");
+        }
+        System.out.println("");
 
     }
     public void setGrid(Color col){
@@ -189,8 +178,6 @@ public class World extends JPanel implements MouseListener {
                     else if ((dir.equals("West") && (j == 0))) {
                         return false;
                     }
-
-
 
                 }
             }
@@ -242,24 +229,38 @@ public class World extends JPanel implements MouseListener {
                         spider.step();
                         updatePos();
                         repaint();
+
+                        System.out.println("step");
+                        break;
                     }
-                    break;
+                    else{
+                        break;
+                    }
+
         //need to update the spidrs position on the set grid--
         // waiting for implementation. Spider steps, but there are no boundaries on the grid for the spider stop
+
                 case "turn":
+                    System.out.println("turn");
                     spider.turn();
                     repaint();
+
+
                     break;
                 case "red":
+                    System.out.println("red");
                     setGrid(Color.red);
                     break;
                 case "blue":
+                    System.out.println("blue");
                     setGrid(Color.BLUE);
                     break;
                 case "green":
+                    System.out.println("green");
                     setGrid(Color.GREEN);
                     break;
                 case "black":
+                    System.out.println("black");
                     setGrid(Color.BLACK);
                     break;
                 case "Run":
