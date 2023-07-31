@@ -23,8 +23,7 @@ public class DataSource {
     }
 
     public void setGrid(long rows, long columns, Color color){
-        System.out.println("rows: " + rows);
-        System.out.println("columns: " + columns);
+        grid = new ArrayList<>();
 
         for(int i = 0; i < rows; i++) {
             ArrayList<Cell> row = new ArrayList<>();

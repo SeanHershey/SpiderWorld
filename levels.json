@@ -2,11 +2,12 @@
 {
   "1" :
   {
-    "rows" : 10,
-    "columns" : 10,
+    "rows" : 4,
+    "columns" : 4,
     "power ups" : 3,
-    "color" : "yellow"
-
+    "r" : 0,
+    "g" : 0,
+    "b" : 0
 
   },
 
@@ -15,8 +16,9 @@
     "rows" : 2,
     "columns" : 2,
     "power ups" : 2,
-    "color" : "green"
-
+    "r" : 0,
+    "g" : 76,
+    "b" : 153
   },
 
   "3" :
@@ -25,15 +27,18 @@
     "rows" : 3,
     "columns" : 3,
     "power ups" : 3,
-    "color" : "blue"
-
+    "r" : 30,
+    "g" : 102,
+    "b" : 50
   },
   "4" :
   {
-    "rows" : 4,
-    "columns" : 4,
+    "rows" : 10,
+    "columns" : 10,
     "power ups" : 4,
-    "color" : "red"
+    "r" : 204,
+    "g" : 204,
+    "b" : 255
 
   }
 

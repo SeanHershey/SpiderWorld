@@ -18,13 +18,10 @@ public class Spider extends JPanel {
 
     public void draw(Graphics g) throws IOException {
         BufferedImage image = null;
-        System.out.println(this.pic[index]);
         String st = this.pic[index];
         st.replace('"', ' ');
         File file = new File(st);
-        System.out.println("2!!!!!!");
         image = ImageIO.read(file);
-        System.out.println("!!!!!!");
         g.drawImage(image, posX, posY, observer);
 
     }
