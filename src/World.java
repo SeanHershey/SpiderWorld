@@ -236,7 +236,6 @@ public class World extends JPanel implements MouseListener {
         if (e.getSource() instanceof JButton) {
             JButton clickedButton = (JButton) e.getSource();
             String buttonLabel = clickedButton.getText();
-            System.out.println("looookk here: " + buttonLabel);
             switch (buttonLabel) {
                 case "step":
                     if(checkMove()){
@@ -266,7 +265,6 @@ public class World extends JPanel implements MouseListener {
                 case "Run":
                     Stack<String> intsructions = DataSource.getInstance().getInstructions();
                     for (String type : intsructions) {
-                        System.out.println(type);
                         switch (type) {
                             case "Step":
                                 if(checkMove()){
@@ -281,12 +279,15 @@ public class World extends JPanel implements MouseListener {
                                 break;
                             case "Red":
                                 setGrid(Color.RED);
+                                repaint();
                                 break;
                             case "Blue":
                                 setGrid(Color.BLUE);
+                                repaint();
                                 break;
                             case "Green":
                                 setGrid(Color.GREEN);
+                                repaint();
                                 break;
                             default:
                         }
