@@ -11,9 +11,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.util.Random;
-
-
 
 public class World extends JPanel implements MouseListener {
     private JSONObject levels;
@@ -21,7 +18,6 @@ public class World extends JPanel implements MouseListener {
     private long rows;
     private long columns;
     private Color color;
-    private int targets;
 
 
     private Spider spider;
@@ -66,8 +62,6 @@ public class World extends JPanel implements MouseListener {
     public void setLevel(){
         this.rows = (long) ((JSONObject) levels.get(level)).get("rows");
         this.columns = (long) ((JSONObject) levels.get(level)).get("columns");
-        long t = (long) ((JSONObject) levels.get(level)).get("targets");
-        this.targets = (int) t;
 
         long rLong = (long) ((JSONObject) levels.get(level)).get("r");
         long gLong = (long) ((JSONObject) levels.get(level)).get("g");
@@ -76,8 +70,14 @@ public class World extends JPanel implements MouseListener {
         int g = (int) gLong;
         int b = (int) bLong;
 
+        System.out.println("r: " + r);
+
+
         Color test_c = new Color(r,g,b);
         this.color = test_c;
+        System.out.println("should work:" + this.color + "!");
+
+
     }
 
     public void setButtons(){
@@ -125,15 +125,10 @@ public class World extends JPanel implements MouseListener {
         for(int i = 0; i < rows; i++) {
             for(int j = 0; j < columns; j++) {
                 Rectangle rect = DataSource.getInstance().getGrid().get(i).get(j).getRect();
-                Cell c = DataSource.getInstance().getGrid().get(i).get(j);;
-                g.setColor( c.getColor());
+                Cell c = (Cell) DataSource.getInstance().getGrid().get(i).get(j);;
+                g.setColor((Color) c.getColor());
+//                System.out.println("color heheheh: " + c.getColor());
                 g.fillRect((int) rect.getX(),(int) rect.getY(),(int) rect.getWidth(), (int) rect.getHeight() );
-                if (c.getTarget()){
-                    g.setColor(c.getTargetColor());
-                    g.fillRect((int) rect.getX() + 17 ,(int) rect.getY() + 19,(int) rect.getWidth() - 35, (int) rect.getHeight() - 35 );
-
-                }
-
             }
         }
 
@@ -149,27 +144,9 @@ public class World extends JPanel implements MouseListener {
         for (String type : intsructions) {
             System.out.print(type + ",");
         }
-    }
-
-    public ArrayList<Integer> chooseTargets(){
-        long valid_indexes_1 = (this.rows * this.columns) - 1;
-        int valid_indexes = (int) valid_indexes_1;
-
-        ArrayList<Integer> indices = new ArrayList();
-        Random random = new Random();
-
-        while (indices.size() != this.targets ){
-            int randomNumber = random.nextInt(valid_indexes + 1);// Generates random number in the range [0, k]
-            if (! indices.contains(randomNumber) && (randomNumber != 0) ){
-                indices.add(randomNumber);
-            }
-        }
-
-        return indices;
+        System.out.println("");
 
     }
-
-
     public void setGrid(Color col){
         DataSource ds =  DataSource.getInstance();
         ArrayList<ArrayList<Cell>> grid = ds.getGrid();
@@ -234,8 +211,7 @@ public class World extends JPanel implements MouseListener {
 
     public void changeLevel(){
         setLevel();
-        ArrayList<Integer> targets = chooseTargets();
-        DataSource.getInstance().setGrid(rows, columns, color, targets);
+        DataSource.getInstance().setGrid(rows, columns, color);
         repaint();
         this.spider = new Spider();
         posI = 0;
@@ -249,6 +225,7 @@ public class World extends JPanel implements MouseListener {
         if (e.getSource() instanceof JButton) {
             JButton clickedButton = (JButton) e.getSource();
             String buttonLabel = clickedButton.getText();
+            System.out.println("looookk here: " + buttonLabel);
             switch (buttonLabel) {
                 case "step":
                     if(checkMove()){
@@ -262,10 +239,16 @@ public class World extends JPanel implements MouseListener {
                     else{
                         break;
                     }
+
+        //need to update the spidrs position on the set grid--
+        // waiting for implementation. Spider steps, but there are no boundaries on the grid for the spider stop
+
                 case "turn":
                     System.out.println("turn");
                     spider.turn();
                     repaint();
+
+
                     break;
                 case "red":
                     System.out.println("red");
