@@ -19,6 +19,7 @@ public class World extends JPanel implements MouseListener {
     private long columns;
     private Color color;
 
+
     private Spider spider;
     private JButton redButton;
     private JButton blueButton;
@@ -26,17 +27,21 @@ public class World extends JPanel implements MouseListener {
     private JButton blackButton;
     private JButton stepButton;
     private JButton turnButton;
+    private JButton level1;
+    private JButton level2;
+    private JButton level3;
+    private JButton level4;
+
     private int posI = 0;
     private int posJ = 0;
+
 
 
     public World(){
         addMouseListener(this);
         setButtons();
         fetchLevel();
-        setLevel();
-        DataSource.getInstance().setGrid(rows, columns, color);
-        this.spider = new Spider();
+        changeLevel();
     }
 
 
@@ -57,11 +62,22 @@ public class World extends JPanel implements MouseListener {
     public void setLevel(){
         this.rows = (long) ((JSONObject) levels.get(level)).get("rows");
         this.columns = (long) ((JSONObject) levels.get(level)).get("columns");
-        String colorString = (String) ((JSONObject) levels.get(level)).get("color");
 
-        // System.out.println("color string:" + colorString + "!");
-        this.color = Color.getColor(colorString);
-        // System.out.println("color: " + this.color);
+        long rLong = (long) ((JSONObject) levels.get(level)).get("r");
+        long gLong = (long) ((JSONObject) levels.get(level)).get("g");
+        long bLong = (long) ((JSONObject) levels.get(level)).get("b");
+        int r = (int) rLong;
+        int g = (int) gLong;
+        int b = (int) bLong;
+
+        System.out.println("r: " + r);
+
+
+        Color test_c = new Color(r,g,b);
+        this.color = test_c;
+        System.out.println("should work:" + this.color + "!");
+
+
     }
 
     public void setButtons(){
@@ -71,12 +87,21 @@ public class World extends JPanel implements MouseListener {
         blueButton = new JButton("blue");
         greenButton = new JButton("green");
         blackButton = new JButton("black");
+        level1 = new JButton("level1");
+        level2 = new JButton("level2");
+        level3 = new JButton("level3");
+        level4 = new JButton("level4");
+
         add(stepButton);
         add(turnButton);
         add(redButton);
         add(blueButton);
         add(greenButton);
         add(blackButton);
+        add(level1);
+        add(level2);
+        add(level3);
+        add(level4);
 
         stepButton.addMouseListener(this);
         turnButton.addMouseListener(this);
@@ -84,6 +109,11 @@ public class World extends JPanel implements MouseListener {
         blueButton.addMouseListener(this);
         greenButton.addMouseListener(this);
         blackButton.addMouseListener(this);
+
+        level1.addMouseListener(this);
+        level2.addMouseListener(this);
+        level3.addMouseListener(this);
+        level4.addMouseListener(this);
     }
 
 
@@ -97,7 +127,7 @@ public class World extends JPanel implements MouseListener {
                 Rectangle rect = DataSource.getInstance().getGrid().get(i).get(j).getRect();
                 Cell c = (Cell) DataSource.getInstance().getGrid().get(i).get(j);;
                 g.setColor((Color) c.getColor());
-                System.out.println("color: " + c.getColor());
+//                System.out.println("color heheheh: " + c.getColor());
                 g.fillRect((int) rect.getX(),(int) rect.getY(),(int) rect.getWidth(), (int) rect.getHeight() );
             }
         }
@@ -179,11 +209,23 @@ public class World extends JPanel implements MouseListener {
         grid.get(posI).get((posJ)).setSpider(true);
     }
 
+    public void changeLevel(){
+        setLevel();
+        DataSource.getInstance().setGrid(rows, columns, color);
+        repaint();
+        this.spider = new Spider();
+        posI = 0;
+        posJ = 0;
+        return;
+
+    }
+
 
     public void mousePressed(MouseEvent e) {
         if (e.getSource() instanceof JButton) {
             JButton clickedButton = (JButton) e.getSource();
             String buttonLabel = clickedButton.getText();
+            System.out.println("looookk here: " + buttonLabel);
             switch (buttonLabel) {
                 case "step":
                     if(checkMove()){
@@ -224,7 +266,26 @@ public class World extends JPanel implements MouseListener {
                     System.out.println("black");
                     setGrid(Color.BLACK);
                     break;
+                case "level1":
+                    level = "1";
+                    changeLevel();
+                    break;
+
+                case "level2":
+                    level = "2";
+                    changeLevel();
+                    break;
+                case "level3":
+                    level = "3";
+                    changeLevel();
+                    break;
+                case "level4":
+                    level = "4";
+                    changeLevel();
+                    break;
                 default:
+
+
             }
         }
     }
