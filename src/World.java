@@ -202,8 +202,6 @@ public class World extends JPanel implements MouseListener {
                         return false;
                     }
 
-
-
                 }
             }
 
