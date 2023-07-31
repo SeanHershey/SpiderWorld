@@ -26,6 +26,7 @@ public class World extends JPanel implements MouseListener {
     private JButton blackButton;
     private JButton stepButton;
     private JButton turnButton;
+    private JButton runButton;
     private int posI = 0;
     private int posJ = 0;
 
@@ -71,12 +72,28 @@ public class World extends JPanel implements MouseListener {
         blueButton = new JButton("blue");
         greenButton = new JButton("green");
         blackButton = new JButton("black");
-        add(stepButton);
-        add(turnButton);
-        add(redButton);
-        add(blueButton);
-        add(greenButton);
-        add(blackButton);
+        runButton = new JButton("Run");
+
+        JPanel northPanel = new JPanel();
+        northPanel.add(stepButton);
+        northPanel.add(turnButton);
+        northPanel.add(redButton);
+        northPanel.add(blueButton);
+        northPanel.add(greenButton);
+        northPanel.add(blackButton);
+
+        JPanel runPanel = new JPanel();
+        runPanel.setLayout(new GridLayout(20,1));
+        JPanel[] panelHolder = new JPanel[5];
+        for(int i = 0; i < 5; i++) { 
+            panelHolder[i] = new JPanel();
+            runPanel.add(panelHolder[i]);
+        }
+        runPanel.add(runButton);
+
+        setLayout(new BorderLayout());
+        add(northPanel, BorderLayout.NORTH);
+        add(runPanel, BorderLayout.EAST);
 
         stepButton.addMouseListener(this);
         turnButton.addMouseListener(this);
@@ -84,6 +101,7 @@ public class World extends JPanel implements MouseListener {
         blueButton.addMouseListener(this);
         greenButton.addMouseListener(this);
         blackButton.addMouseListener(this);
+        runButton.addMouseListener(this);
     }
 
 
@@ -108,13 +126,6 @@ public class World extends JPanel implements MouseListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        // To Get Block Instructions 
-        Stack<String> intsructions = DataSource.getInstance().getInstructions();
-        for (String type : intsructions) {
-            System.out.print(type + ",");
-        }
-        System.out.println("");
 
     }
     public void setGrid(Color col){
@@ -190,39 +201,54 @@ public class World extends JPanel implements MouseListener {
                         spider.step();
                         updatePos();
                         repaint();
-
-                        System.out.println("step");
-                        break;
                     }
-                    else{
-                        break;
-                    }
-
+                    break;
         //need to update the spidrs position on the set grid--
         // waiting for implementation. Spider steps, but there are no boundaries on the grid for the spider stop
-
                 case "turn":
-                    System.out.println("turn");
                     spider.turn();
                     repaint();
-
-
                     break;
                 case "red":
-                    System.out.println("red");
                     setGrid(Color.red);
                     break;
                 case "blue":
-                    System.out.println("blue");
                     setGrid(Color.BLUE);
                     break;
                 case "green":
-                    System.out.println("green");
                     setGrid(Color.GREEN);
                     break;
                 case "black":
-                    System.out.println("black");
                     setGrid(Color.BLACK);
+                    break;
+                case "Run":
+                    Stack<String> intsructions = DataSource.getInstance().getInstructions();
+                    for (String type : intsructions) {
+                        System.out.println(type);
+                        switch (type) {
+                            case "Step":
+                                if(checkMove()){
+                                    spider.step();
+                                    updatePos();
+                                    repaint();
+                                }
+                                break;
+                            case "Turn":
+                                spider.turn();
+                                repaint();
+                                break;
+                            case "Red":
+                                setGrid(Color.RED);
+                                break;
+                            case "Blue":
+                                setGrid(Color.BLUE);
+                                break;
+                            case "Green":
+                                setGrid(Color.GREEN);
+                                break;
+                            default:
+                        }
+                    }
                     break;
                 default:
             }

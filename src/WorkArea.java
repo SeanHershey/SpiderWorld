@@ -4,7 +4,6 @@ import java.awt.event.*;
 import java.util.LinkedList;
 import java.awt.*;
 
-// need to check if the block's location is valid in mouseReleased
 public class WorkArea extends JPanel implements MouseListener, MouseMotionListener {
     private int x, y;
     private JPanel duplicatePanel;
@@ -139,10 +138,15 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
 
     public void mousePressed(MouseEvent e) {
         for (Block block : DataSource.getInstance().getBlockList()) {
-            block.setPreX((int) (block.getX() - e.getX()));
-            block.setPreY((int) (block.getY() - e.getY()));
             if (block.contains(e.getX(), e.getY())) {
-                block.move(block.getPreX() + e.getX(), block.getPreY() + e.getY());
+                block.setPreX((int) (block.getX() - e.getX()));
+                block.setPreY((int) (block.getY() - e.getY()));
+                if ((block.getType() != "Step" && block.getType() != "Turn") && e.getX() - block.getX() > 50 ) {
+                    block.clicked(e.getX(), e.getY());
+                }
+                else {
+                    block.move(block.getPreX() + e.getX(), block.getPreY() + e.getY());
+                }
                 repaint();
                 break;
             } else {
@@ -154,7 +158,10 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
     public void mouseDragged(MouseEvent e) {
         for (Block block : DataSource.getInstance().getBlockList()) {
             if (!block.getPressOut()) {
-                block.move(block.getPreX() + e.getX(), block.getPreY() + e.getY());
+                if ((block.getType() != "Step" && block.getType() != "Turn") && e.getX() - block.getX() > 50 ) { }
+                else {
+                    block.move(block.getPreX() + e.getX(), block.getPreY() + e.getY());
+                }
                 repaint();
                 break;
             }
@@ -163,11 +170,18 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
 
     public void mouseReleased(MouseEvent e) {
         for (Block block : DataSource.getInstance().getBlockList()) {
-            block.setPreX((int) (block.getX() - e.getX()));
-            block.setPreY((int) (block.getY() - e.getY()));
             if (block.contains(e.getX(), e.getY())) {
-                block.move(block.getPreX() + e.getX(), block.getPreY() + e.getY());
-                ConnectHelper.snap(block);
+                if (e.getX() < 100 && e.getY() > 650) {
+                    DataSource.getInstance().blocks.remove(block);
+                }
+
+                block.setPreX((int) (block.getX() - e.getX()));
+                block.setPreY((int) (block.getY() - e.getY()));
+                if ((block.getType() != "Step" && block.getType() != "Turn") && e.getX() - block.getX() > 50 ) { }
+                else {
+                    block.move(block.getPreX() + e.getX(), block.getPreY() + e.getY());
+                    ConnectHelper.snap(block);
+                }
                 repaint();
                 break;
             } else {
