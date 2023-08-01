@@ -15,7 +15,7 @@ import java.util.Random;
 
 public class World extends JPanel implements MouseListener {
     private JSONObject levels;
-    private String level = "4";
+    private String level = "1";
     private long rows;
     private long columns;
     private Color color;
@@ -35,6 +35,7 @@ public class World extends JPanel implements MouseListener {
     private JButton level4;
 
     private JButton runButton;
+    private JButton resetButton;
 
     private int posI = 0;
     private int posJ = 0;
@@ -92,32 +93,38 @@ public class World extends JPanel implements MouseListener {
         level3 = new JButton("level3");
         level4 = new JButton("level4");
         runButton = new JButton("Run");
+        resetButton = new JButton("Reset");
+
+
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new GridLayout(2, 1));
+
 
         JPanel northPanel = new JPanel();
-        northPanel.setPreferredSize(new Dimension(northPanel.getWidth(), 100));
+        JPanel southPanel = new JPanel();
+
         northPanel.add(stepButton);
         northPanel.add(turnButton);
         northPanel.add(redButton);
         northPanel.add(blueButton);
         northPanel.add(greenButton);
         northPanel.add(blackButton);
-        northPanel.add(level1);
-        northPanel.add(level2);
-        northPanel.add(level3);
-        northPanel.add(level4);
+        southPanel.add(level1);
+        southPanel.add(level2);
+        southPanel.add(level3);
+        southPanel.add(level4);
+        southPanel.add(resetButton);
+        southPanel.add(runButton);
 
-        JPanel runPanel = new JPanel();
-        runPanel.setLayout(new GridLayout(20,1));
-        JPanel[] panelHolder = new JPanel[5];
-        for(int i = 0; i < 5; i++) { 
-            panelHolder[i] = new JPanel();
-            runPanel.add(panelHolder[i]);
-        }
-        runPanel.add(runButton);
+
+
+        mainPanel.add(northPanel, BorderLayout.NORTH);
+        mainPanel.add(southPanel, BorderLayout.SOUTH);
+
 
         setLayout(new BorderLayout());
-        add(northPanel, BorderLayout.NORTH);
-        add(runPanel, BorderLayout.EAST);
+        add(mainPanel, BorderLayout.NORTH);
+
 
         stepButton.addMouseListener(this);
         turnButton.addMouseListener(this);
@@ -132,6 +139,9 @@ public class World extends JPanel implements MouseListener {
         level4.addMouseListener(this);
 
         runButton.addMouseListener(this);
+        resetButton.addMouseListener(this);
+
+
     }
 
 
@@ -170,15 +180,19 @@ public class World extends JPanel implements MouseListener {
     }
 
     public boolean checkWin(){
+
         ArrayList<ArrayList<Cell>> g = DataSource.getInstance().getGrid();
+
         for(int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
+                System.out.println("look here");
                 Cell c = DataSource.getInstance().getGrid().get(i).get(j);;
                 if ( c.getTarget() == true && c.getColor() != c.getTargetColor() ){
                     return false;
                 }
             }
         }
+
         JOptionPane.showMessageDialog(null, "Winner Winner Chicken Dinner!");
         changeLevel();
 
@@ -221,18 +235,21 @@ public class World extends JPanel implements MouseListener {
                 Boolean pos = grid.get(i).get(j).getSpider();
 
                 if (pos) {
-                    System.out.println("SPIDER AT " + i +"&" + j);
+//                    System.out.println("SPIDER AT " + i +"&" + j);
                     if ((dir.equals("North") && (i == 0))) {
+                        JOptionPane.showMessageDialog(null, "You hit a wall!");
                         return false;
                     }
                     else if ((dir.equals("East") && (j == columns-1))) {
-
+                        JOptionPane.showMessageDialog(null, "You hit a wall!");
                         return false;
                     }
                     else if ((dir.equals("South") && (i == rows-1 ))) {
+                        JOptionPane.showMessageDialog(null, "You hit a wall!");
                         return false;
                     }
                     else if ((dir.equals("West") && (j == 0))) {
+                        JOptionPane.showMessageDialog(null, "You hit a wall!");
                         return false;
                     }
 
@@ -319,36 +336,74 @@ public class World extends JPanel implements MouseListener {
                     setGrid(Color.BLACK);
                     checkWin();
                     break;
+
+                case "Reset":
+                    System.out.println("reset");
+                    changeLevel();
+                    break;
                 case "Run":
+
                     Stack<String> intsructions = DataSource.getInstance().getInstructions();
-                    for (String type : intsructions) {
-                        switch (type) {
-                            case "Step":
-                                if(checkMove()){
+                    int start = 0;
+                    for (int i = 0; i<intsructions.size(); i++) {
+                        String type = intsructions.get(i);
+                        char c ;
+                        if (type.charAt(0) == 'l') {
+                            c = type.charAt(1);
+                        }
+                        else{
+                            c = type.charAt(0);
+                        }
+                        System.out.println(c);
+                        switch (c) {
+                            case 'S':
+                                if (checkMove()) {
                                     spider.step();
                                     updatePos();
                                     repaint();
                                 }
                                 break;
-                            case "Turn":
+                            case 'T':
                                 spider.turn();
                                 repaint();
                                 break;
-                            case "Red":
+                            case 'R':
                                 setGrid(Color.RED);
                                 repaint();
                                 break;
-                            case "Blue":
+                            case 'B':
                                 setGrid(Color.BLUE);
                                 repaint();
                                 break;
-                            case "Green":
+                            case 'G':
                                 setGrid(Color.GREEN);
                                 repaint();
                                 break;
+                            case 'L':
+                                start = i;
                             default:
                         }
+
+                        if (type.charAt(0) == 'l') {
+                            if( i+1 >= intsructions.size()) {
+                                if (checkMove()) {
+                                    i = start;
+
+                                }
+                                else {
+                                    break;
+                                }
+                            }
+                            if (intsructions.get(i+1).charAt(0) != 'l') {
+                                if (checkMove()) {
+                                    i = start;
+
+                                }
+                            }
+                        }
                     }
+                    System.out.println("dfsfsfsdf");
+                    checkWin();
                     break;
                 case "level1":
                     level = "1";

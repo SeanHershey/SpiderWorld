@@ -5,7 +5,7 @@ import java.util.Stack;
 
 public class DataSource {
     private static DataSource instance;
-    Stack<Block> blocks = new Stack<Block>();
+    Stack<Shape> blocks = new Stack<Shape>();
     Stack<String> instructions = new Stack<String>();
     ArrayList<ArrayList<Cell>> grid = new ArrayList<>();
 
@@ -49,23 +49,26 @@ public class DataSource {
         return this.grid;
     }
 
-    public Stack<Block> getBlockList() {
+    public Stack<Shape> getBlockList() {
         return this.blocks;
     }
 
     public Stack<String> getInstructions() {
-        LinkedList<Block> done = new LinkedList<Block>();
+        LinkedList<Shape> done = new LinkedList<Shape>();
         instructions.clear();
 
-        for (Block block : blocks) {
+        for (Shape block : blocks) {
+
             if (block.getAbove() == null && block.getBelow() != null)
             {
                 if (!done.contains(block)) {
-                    Block b = block;
+                    Shape b = block;
+                    System.out.println("a->"+b.getType());
                     instructions.add(b.getType());
                     done.add(b);
                     b = b.getBelow();
                     while (b != null) {
+                        System.out.println("b->"+b.getType());
                         instructions.add(b.getType());
                         done.add(b);
                         b = b.getBelow();
@@ -74,8 +77,9 @@ public class DataSource {
             }
         }
 
-        for (Block block : blocks) {
+        for (Shape block : blocks) {
             if (!done.contains(block)) {
+                System.out.println("c->"+block.getType());
                 instructions.add(block.getType());
                 done.add(block);
             }

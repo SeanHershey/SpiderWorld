@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public class Block implements Shape {
+public class Loop extends Decorator{
     private String type;
     Rectangle bounds;
     private boolean pressOut;
@@ -10,17 +10,26 @@ public class Block implements Shape {
     private Shape below;
     private Color color = Color.darkGray;
 
-    public Block(int x, int y, String t) {
-        this.type = t;
+    public Loop(Shape block){
+        super(block);
+        this.type = block.getType();
         if(type == "Loop"){
-            bounds = new Rectangle(x-20, y, 140, 30 );
+            bounds = new Rectangle(block.getX()-20, block.getY(), 140, 30 );
         }
         else{
-            bounds = new Rectangle(x, y, 100, 30);
+            bounds = new Rectangle(block.getX(), block.getY(), 100, 30);
         }
         this.pressOut = false;
-        this.preX = x;
-        this.preY = y;
+        this.preX = getX();
+        this.preY = getY();
+        this.above = block.getAbove();
+        this.below = block.getBelow();
+        this.color = block.getColor();
+    }
+    @Override
+    public String getType(){
+
+        return "l" + type;
     }
 
     public void paint(Graphics2D g2) {
@@ -31,11 +40,11 @@ public class Block implements Shape {
         g2.fillPolygon(xPoints, yPoints, 3);
 
         g2.setColor(Color.white);
-        yPoints[0] = bounds.y; 
-        yPoints[1] = bounds.y + 6; 
-        yPoints[2] = bounds.y; 
+        yPoints[0] = bounds.y;
+        yPoints[1] = bounds.y + 6;
+        yPoints[2] = bounds.y;
         g2.fillPolygon(xPoints, yPoints, 3);
-        
+
         if (type != "Step" && type != "Turn" && type != "Loop") {
             g2.setColor(Color.RED);
             g2.fillRoundRect(bounds.x +55, bounds.y + 5, 10, bounds.height - 10, 1, 1);
@@ -62,10 +71,6 @@ public class Block implements Shape {
     public Shape getBelow() { return below; };
     public void setAbove(Shape b) {  above = b; };
     public Shape getAbove() { return above; };
-    @Override
-    public String getType() {
-        return type;
-    };
     public void setColor(Color c) { color = c; }
     public Color getColor() { return color; }
 
@@ -74,6 +79,7 @@ public class Block implements Shape {
             if (x - bounds.x > 80) {
                 color = Color.BLUE;
                 type = "Blue";
+                System.out.println(block.getType());
             }
             else if (x - bounds.x > 65) {
                 color = Color.GREEN;
@@ -97,4 +103,5 @@ public class Block implements Shape {
     public boolean contains(int x, int y) {
         return bounds.contains(x, y);
     }
+
 }
