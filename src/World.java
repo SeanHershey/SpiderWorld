@@ -174,9 +174,6 @@ public class World extends JPanel implements MouseListener {
     }
 
     public boolean checkWin(){
-
-        ArrayList<ArrayList<Cell>> g = DataSource.getInstance().getGrid();
-
         for(int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 Cell c = DataSource.getInstance().getGrid().get(i).get(j);;
@@ -196,7 +193,7 @@ public class World extends JPanel implements MouseListener {
         long valid_indexes_1 = (this.rows * this.columns) - 1;
         int valid_indexes = (int) valid_indexes_1;
 
-        ArrayList<Integer> indices = new ArrayList();
+        ArrayList<Integer> indices = new ArrayList<Integer>();
         Random random = new Random();
 
         while (indices.size() != this.targets ){

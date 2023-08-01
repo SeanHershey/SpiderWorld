@@ -1,5 +1,3 @@
-import java.awt.*;
-
 public abstract class Decorator implements Shape {
     protected Shape block;
     
