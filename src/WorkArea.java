@@ -80,7 +80,7 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
                 }
                 parentPanel.revalidate();
                 parentPanel.repaint();
-                System.out.println("create");
+                // System.out.println("create");
                 DataSource.getInstance().addBlock(x + parentPanel.getParent().getWidth() - parentPanel.getWidth() ,y ,label);
                ConnectHelper.snap(DataSource.getInstance().getBlockList().peek());
             }
@@ -138,6 +138,9 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
     }
 
     public void mousePressed(MouseEvent e) {
+        if (e.getX() < 100 && e.getY() > 650) {
+            DataSource.getInstance().blocks.clear();
+        }
         for (Shape block : DataSource.getInstance().getBlockList()) {
             if (block.contains(e.getX(), e.getY())) {
                 block.setPreX((int) (block.getX() - e.getX()));
@@ -170,7 +173,7 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
     }
 
     public void mouseReleased(MouseEvent e) {
-        System.out.println("got it!!!");
+        // System.out.println("got it!!!");
         for (Shape block : DataSource.getInstance().getBlockList()) {
             if (block.contains(e.getX(), e.getY())) {
                 if (e.getX() < 100 && e.getY() > 650) {

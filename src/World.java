@@ -171,12 +171,6 @@ public class World extends JPanel implements MouseListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        // To Get Block Instructions
-        Stack<String> intsructions = DataSource.getInstance().getInstructions();
-        for (String type : intsructions) {
-            System.out.print(type + ",");
-        }
     }
 
     public boolean checkWin(){
@@ -185,7 +179,6 @@ public class World extends JPanel implements MouseListener {
 
         for(int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                System.out.println("look here");
                 Cell c = DataSource.getInstance().getGrid().get(i).get(j);;
                 if ( c.getTarget() == true && c.getColor() != c.getTargetColor() ){
                     return false;
@@ -304,41 +297,33 @@ public class World extends JPanel implements MouseListener {
                         spider.step();
                         updatePos();
                         repaint();
-
-                        System.out.println("step");
                         break;
                     }
                     else{
                         break;
                     }
                 case "turn":
-                    System.out.println("turn");
                     spider.turn();
                     repaint();
                     break;
                 case "red":
-                    System.out.println("red");
                     setGrid(Color.red);
                     checkWin();
                     break;
                 case "blue":
-                    System.out.println("blue");
                     setGrid(Color.BLUE);
                     checkWin();
                     break;
                 case "green":
-                    System.out.println("green");
                     setGrid(Color.GREEN);
                     checkWin();
                     break;
                 case "black":
-                    System.out.println("black");
                     setGrid(Color.BLACK);
                     checkWin();
                     break;
 
                 case "Reset":
-                    System.out.println("reset");
                     changeLevel();
                     break;
                 case "Run":
@@ -354,7 +339,6 @@ public class World extends JPanel implements MouseListener {
                         else{
                             c = type.charAt(0);
                         }
-                        System.out.println(c);
                         switch (c) {
                             case 'S':
                                 if (checkMove()) {
@@ -402,7 +386,6 @@ public class World extends JPanel implements MouseListener {
                             }
                         }
                     }
-                    System.out.println("dfsfsfsdf");
                     checkWin();
                     break;
                 case "level1":

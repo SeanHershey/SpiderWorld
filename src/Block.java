@@ -37,7 +37,7 @@ public class Block implements Shape {
         g2.fillPolygon(xPoints, yPoints, 3);
         
         if (type != "Step" && type != "Turn" && type != "Loop" && type != "lStep" && type != "lTurn") {
-            System.out.println(type);
+            // System.out.println(type);
             g2.setColor(Color.RED);
             g2.fillRoundRect(bounds.x +55, bounds.y + 5, 10, bounds.height - 10, 1, 1);
             g2.setColor(Color.GREEN);

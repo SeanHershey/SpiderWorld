@@ -42,7 +42,7 @@ public class DataSource {
 
             grid.add(row);
         }
-        System.out.println(grid);
+        // System.out.println(grid);
     }
 
     public ArrayList<ArrayList<Cell>> getGrid() {
@@ -63,12 +63,12 @@ public class DataSource {
             {
                 if (!done.contains(block)) {
                     Shape b = block;
-                    System.out.println("a->"+b.getType());
+                    // System.out.println("a->"+b.getType());
                     instructions.add(b.getType());
                     done.add(b);
                     b = b.getBelow();
                     while (b != null) {
-                        System.out.println("b->"+b.getType());
+                        // System.out.println("b->"+b.getType());
                         instructions.add(b.getType());
                         done.add(b);
                         b = b.getBelow();
@@ -79,7 +79,7 @@ public class DataSource {
 
         for (Shape block : blocks) {
             if (!done.contains(block)) {
-                System.out.println("c->"+block.getType());
+                // System.out.println("c->"+block.getType());
                 instructions.add(block.getType());
                 done.add(block);
             }
