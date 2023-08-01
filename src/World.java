@@ -237,16 +237,19 @@ public class World extends JPanel implements MouseListener {
                 if (pos) {
 //                    System.out.println("SPIDER AT " + i +"&" + j);
                     if ((dir.equals("North") && (i == 0))) {
+                        JOptionPane.showMessageDialog(null, "You hit a wall!");
                         return false;
                     }
                     else if ((dir.equals("East") && (j == columns-1))) {
-
+                        JOptionPane.showMessageDialog(null, "You hit a wall!");
                         return false;
                     }
                     else if ((dir.equals("South") && (i == rows-1 ))) {
+                        JOptionPane.showMessageDialog(null, "You hit a wall!");
                         return false;
                     }
                     else if ((dir.equals("West") && (j == 0))) {
+                        JOptionPane.showMessageDialog(null, "You hit a wall!");
                         return false;
                     }
 
