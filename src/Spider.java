@@ -27,7 +27,7 @@ public class Spider extends JPanel {
     }
 
     public String getDirection(){
-        System.out.println(this.dir[index]);
+//        System.out.println(this.dir[index]);
         return this.dir[index];
 
     }
@@ -55,7 +55,7 @@ public class Spider extends JPanel {
             repaint();
         }
         if(this.pic[this.index].equals( "090.png")){
-            System.out.println("got it");
+//            System.out.println("got it");
             posX = posX + 50;
             repaint();
         }

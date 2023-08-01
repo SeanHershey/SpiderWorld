@@ -24,6 +24,7 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
         addPaletteBlock(eastPanel, "Turn");
         addPaletteBlock(eastPanel, "Step");
         addPaletteBlock(eastPanel, "Color");
+        addPaletteBlock(eastPanel, "Loop");
     }
 
     private void addPaletteBlock(JPanel parentPanel, String label) {
@@ -79,9 +80,9 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
                 }
                 parentPanel.revalidate();
                 parentPanel.repaint();
-                // System.out.println("mouseReleased");
+                System.out.println("got it");
                 DataSource.getInstance().addBlock(x + parentPanel.getParent().getWidth() - parentPanel.getWidth() ,y ,label);
-                ConnectHelper.snap(DataSource.getInstance().getBlockList().peek());
+               ConnectHelper.snap(DataSource.getInstance().getBlockList().peek());
             }
         });
 
@@ -118,17 +119,17 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
         g2.fillRect(17, 675, 42, 6);
         g2.fillRoundRect(27, 671, 21, 6, 5, 5);
 
-        LinkedList<Block> unpainted = new LinkedList<Block>();
-        for (Block b : DataSource.getInstance().getBlockList()) {
-            unpainted.add(b);
+        LinkedList<Shape> unpainted = new LinkedList<Shape>();
+        for (Shape s : DataSource.getInstance().getBlockList()) {
+            unpainted.add(s);
         }
         while (unpainted.size() > 0) {
             int maxY = 0;
-            Block bottom = null;
-            for (Block b : unpainted) {
-                if (b.getY() > maxY) {
-                    bottom = b;
-                    maxY = b.getY();
+            Shape bottom = null;
+            for (Shape s : unpainted) {
+                if (s.getY() > maxY) {
+                    bottom = s;
+                    maxY = s.getY();
                 }
             }
             bottom.paint(g2);
@@ -137,7 +138,7 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
     }
 
     public void mousePressed(MouseEvent e) {
-        for (Block block : DataSource.getInstance().getBlockList()) {
+        for (Shape block : DataSource.getInstance().getBlockList()) {
             if (block.contains(e.getX(), e.getY())) {
                 block.setPreX((int) (block.getX() - e.getX()));
                 block.setPreY((int) (block.getY() - e.getY()));
@@ -156,7 +157,7 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
     }
 
     public void mouseDragged(MouseEvent e) {
-        for (Block block : DataSource.getInstance().getBlockList()) {
+        for (Shape block : DataSource.getInstance().getBlockList()) {
             if (!block.getPressOut()) {
                 if ((block.getType() != "Step" && block.getType() != "Turn") && e.getX() - block.getX() > 50 ) { }
                 else {
@@ -169,7 +170,8 @@ public class WorkArea extends JPanel implements MouseListener, MouseMotionListen
     }
 
     public void mouseReleased(MouseEvent e) {
-        for (Block block : DataSource.getInstance().getBlockList()) {
+        System.out.println("got it!!!");
+        for (Shape block : DataSource.getInstance().getBlockList()) {
             if (block.contains(e.getX(), e.getY())) {
                 if (e.getX() < 100 && e.getY() > 650) {
                     DataSource.getInstance().blocks.remove(block);

@@ -1,7 +1,8 @@
 public class ConnectHelper {
-    public static void snap(Block block) {
+    public static void snap(Shape block) {
 
-        for (Block other_block : DataSource.getInstance().getBlockList()) {
+        for (Shape other_block : DataSource.getInstance().getBlockList()) {
+
             if (other_block.getBelow() != null) {
                 if (other_block.getBelow().getY() < other_block.getY() || Math.abs(other_block.getBelow().getX() - other_block.getX()) > 50) {
                     other_block.getBelow().setAbove(null);
@@ -11,7 +12,8 @@ public class ConnectHelper {
             }
         }
 
-        for (Block other_block : DataSource.getInstance().getBlockList()) {
+        for (Shape other_block : DataSource.getInstance().getBlockList()) {
+
             if ((block.getBelow() == other_block) && ((Math.abs(block.getX() - other_block.getX()) < 50) && (block.getY() - other_block.getY() < 50))) {
                 block.getBelow().setAbove(null);
                 block.setBelow(null);
@@ -19,7 +21,7 @@ public class ConnectHelper {
             }
         }
 
-        for (Block other_block : DataSource.getInstance().getBlockList()) {
+        for (Shape other_block : DataSource.getInstance().getBlockList()) {
             if (other_block != block)
             {
                 if ((Math.abs(block.getX() - other_block.getX()) < 50) && (Math.abs(block.getY() - other_block.getY()) < 50)) {
@@ -31,7 +33,7 @@ public class ConnectHelper {
                         block.move(other_block.getX(), other_block.getY() + 32);
                     }
                     else {
-                        Block b = other_block.getBelow();
+                        Shape b = other_block.getBelow();
                         while (b.getBelow() != null) {
                             b = b.getBelow();
                         }
@@ -49,5 +51,17 @@ public class ConnectHelper {
                 }
             }
         }
+        if (block.getAbove()!= null){
+       if(block.getAbove().getType() == "Loop" || block.getAbove().getType().charAt(0)== 'l'){
+//           System.out.println(block.getAbove());
+           DataSource.getInstance().getBlockList().remove(block);
+           Shape b = new Loop(block);
+           b.getAbove().setBelow(b);
+           DataSource.getInstance().getBlockList().add(b);
+//           System.out.println(b.getAbove());
+       }
+
+    }
+
     }
 }

@@ -221,7 +221,7 @@ public class World extends JPanel implements MouseListener {
                 Boolean pos = grid.get(i).get(j).getSpider();
 
                 if (pos) {
-                    System.out.println("SPIDER AT " + i +"&" + j);
+//                    System.out.println("SPIDER AT " + i +"&" + j);
                     if ((dir.equals("North") && (i == 0))) {
                         return false;
                     }
@@ -321,32 +321,62 @@ public class World extends JPanel implements MouseListener {
                     break;
                 case "Run":
                     Stack<String> intsructions = DataSource.getInstance().getInstructions();
-                    for (String type : intsructions) {
-                        switch (type) {
-                            case "Step":
-                                if(checkMove()){
+                    int start = 0;
+                    for (int i = 0; i<intsructions.size(); i++) {
+                        String type = intsructions.get(i);
+                        char c ;
+                        if (type.charAt(0) == 'l') {
+                            c = type.charAt(1);
+                        }
+                        else{
+                            c = type.charAt(0);
+                        }
+                        System.out.println(c);
+                        switch (c) {
+                            case 'S':
+                                if (checkMove()) {
                                     spider.step();
                                     updatePos();
                                     repaint();
                                 }
                                 break;
-                            case "Turn":
+                            case 'T':
                                 spider.turn();
                                 repaint();
                                 break;
-                            case "Red":
+                            case 'R':
                                 setGrid(Color.RED);
                                 repaint();
                                 break;
-                            case "Blue":
+                            case 'B':
                                 setGrid(Color.BLUE);
                                 repaint();
                                 break;
-                            case "Green":
+                            case 'G':
                                 setGrid(Color.GREEN);
                                 repaint();
                                 break;
+                            case 'L':
+                                start = i;
                             default:
+                        }
+
+                        if (type.charAt(0) == 'l') {
+                            if( i+1 >= intsructions.size()) {
+                                if (checkMove()) {
+                                    i = start;
+
+                                }
+                                else {
+                                    break;
+                                }
+                            }
+                            if (intsructions.get(i+1).charAt(0) != 'l') {
+                                if (checkMove()) {
+                                    i = start;
+
+                                }
+                            }
                         }
                     }
                     break;
