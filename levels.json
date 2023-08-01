@@ -2,9 +2,9 @@
 {
   "1" :
   {
-    "rows" : 4,
-    "columns" : 4,
-    "power ups" : 3,
+    "rows" : 7,
+    "columns" : 7,
+    "power ups" : 2,
     "r" : 0,
     "g" : 0,
     "b" : 0,
@@ -15,8 +15,8 @@
 
   "2" :
   {
-    "rows" : 2,
-    "columns" : 2,
+    "rows" : 4,
+    "columns" : 4,
     "power ups" : 2,
     "r" : 0,
     "g" : 76,
@@ -29,8 +29,8 @@
   "3" :
   {
 
-    "rows" : 3,
-    "columns" : 3,
+    "rows" : 6,
+    "columns" : 6,
     "power ups" : 3,
     "r" : 30,
     "g" : 102,
