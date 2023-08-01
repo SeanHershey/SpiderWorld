@@ -45,7 +45,8 @@ public class Loop extends Decorator{
         yPoints[2] = bounds.y;
         g2.fillPolygon(xPoints, yPoints, 3);
 
-        if (type != "Step" && type != "Turn" && type != "Loop") {
+        if (type != "Step" && type != "Turn" && type != "Loop" && type != "lStep" && type != "lTurn") {
+            System.out.println(type);
             g2.setColor(Color.RED);
             g2.fillRoundRect(bounds.x +55, bounds.y + 5, 10, bounds.height - 10, 1, 1);
             g2.setColor(Color.GREEN);
@@ -75,7 +76,7 @@ public class Loop extends Decorator{
     public Color getColor() { return color; }
 
     public void clicked(int x, int y) {
-        if (type != "Step" && type != "Turn") {
+        if (type != "Step" && type != "Turn" && type != "Loop" && type != "lStep" && type != "lTurn") {
             if (x - bounds.x > 80) {
                 color = Color.BLUE;
                 type = "Blue";
