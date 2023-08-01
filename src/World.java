@@ -92,7 +92,7 @@ public class World extends JPanel implements MouseListener {
         level2 = new JButton("level2");
         level3 = new JButton("level3");
         level4 = new JButton("level4");
-        runButton = new JButton("Run");
+        runButton = new JButton("PLAY");
         resetButton = new JButton("Reset");
 
 
@@ -323,7 +323,7 @@ public class World extends JPanel implements MouseListener {
                 case "Reset":
                     changeLevel();
                     break;
-                case "Run":
+                case "PLAY":
 
                     Stack<String> intsructions = DataSource.getInstance().getInstructions();
                     int start = 0;
